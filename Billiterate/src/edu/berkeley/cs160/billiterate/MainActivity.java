@@ -14,7 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Agenda extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements
+		ActionBar.TabListener {
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -25,7 +26,7 @@ public class Agenda extends FragmentActivity implements ActionBar.TabListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_agenda);
+		setContentView(R.layout.activity_main);
 
 		// Set up the action bar to show tabs.
 		final ActionBar actionBar = getActionBar();
@@ -59,7 +60,7 @@ public class Agenda extends FragmentActivity implements ActionBar.TabListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_agenda, menu);
+		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 
