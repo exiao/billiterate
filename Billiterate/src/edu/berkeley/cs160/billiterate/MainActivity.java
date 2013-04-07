@@ -37,8 +37,6 @@ public class MainActivity extends FragmentActivity implements
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_section2)
 				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section3)
-				.setTabListener(this));
 	}
 
 	@Override
