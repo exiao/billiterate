@@ -5,11 +5,9 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,12 +20,15 @@ public class MainActivity extends FragmentActivity implements
 	 * current tab position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-
+	private Fragment agendaFragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		this.agendaFragment = new AgendaFragment();
+		
 		// Set up the action bar to show tabs.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -67,6 +68,11 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 		// When the given tab is selected, show the tab contents in the
 		// container view.
+		if (tab.getPosition() == 0) {
+			getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container, agendaFragment).commit();
+			return;
+		}
 		Fragment fragment = new DummySectionFragment();
 		Bundle args = new Bundle();
 		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
@@ -86,6 +92,16 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
+	public void onAgendaClick(View view) {
+		String viewTag = (String) view.getTag();
+		int tagNum = Integer.parseInt(viewTag);
+		tagNum += 1;
+		viewTag = Integer.toString(tagNum);
+		View parent = findViewById(R.id.agenda_layout);
+		View child = parent.findViewWithTag(viewTag);
+		child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+	}
+	
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
@@ -110,6 +126,17 @@ public class MainActivity extends FragmentActivity implements
 			textView.setText(Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
 			return textView;
+		}
+	}
+	
+	public static class AgendaFragment extends Fragment {
+		public AgendaFragment() {
+		}
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+				Bundle savedInstanceState) {
+			return inflater.inflate(R.layout.agenda_layout, container, false);
 		}
 	}
 
