@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none"
+    android:fillViewport="false">
+    
+<LinearLayout 
+    
+    
     android:id="@+id/agenda_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
     
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:text="@string/agenda_text" 
+        android:text="@string/april_two" 
         android:textSize="25sp"
         android:clickable="true"
         android:onClick="onAgendaClick"
@@ -24,20 +32,221 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/agenda_text" />
+        	android:text="@string/late_t" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/agenda_text" />
+        	android:text="@string/massage_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/bid_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/milliman_t" />
     </LinearLayout>
 	<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:text="@string/agenda_text" 
+        android:text="@string/april_two_spec" 
         android:textSize="25sp"
         android:clickable="true"
         android:onClick="onAgendaClick"
         android:tag="3" />
-        
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="4" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/side_t" />
+    </LinearLayout>        
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/march_nineteen" 
+        android:textSize="25sp"
+        android:clickable="true"
+        android:onClick="onAgendaClick"
+        android:tag="5" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="6" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/solicit_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/shelter_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/ahra_t" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/march_five" 
+        android:textSize="25sp"
+        android:clickable="true"
+        android:onClick="onAgendaClick"
+        android:tag="7" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="8" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/womens_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/csi_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/rules_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/insure_t" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/feb_nineteen" 
+        android:textSize="25sp"
+        android:clickable="true"
+        android:onClick="onAgendaClick"
+        android:tag="9" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="10" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/taxi_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/renew_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/harper_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/clerk_t" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/feb_five" 
+        android:textSize="25sp"
+        android:clickable="true"
+        android:onClick="onAgendaClick"
+        android:tag="11" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="12" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/feb_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/harper_rev_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/acs_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/ajw_t" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/jan_twentynine" 
+        android:textSize="25sp"
+        android:clickable="true"
+        android:onClick="onAgendaClick"
+        android:tag="13" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="14" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/cleanup_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/enact_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/nextgen_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/waste_t" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/jan_twentytwo" 
+        android:textSize="25sp"
+        android:clickable="true"
+        android:onClick="onAgendaClick"
+        android:tag="15" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" 
+        android:tag="16" 
+        android:visibility="gone">
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/fee_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/line_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/dana_t" />
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="@string/jan_t" />
+    </LinearLayout>
 
 </LinearLayout>
+</ScrollView>
