@@ -2,6 +2,8 @@ package edu.berkeley.cs160.billiterate;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -208,10 +210,12 @@ public class BillInfoActivity extends Activity {
 		startActivity(i);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void postComment(View v) {
 		TextView commentText = new TextView(this);
 		commentText.setText(commentBox.getText());
 		commentText.setLayoutParams(new LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT ));
+		commentText.setBackgroundDrawable(BillInfoActivity.this.getResources().getDrawable(R.drawable.black_border));
 		bill_view.addView(commentText);
 		
 		commentBox.setText("");
