@@ -81,4 +81,9 @@
 	<string name="side_t">Compassionate Sidewalks Background Information</string>
 	<string name="side_s">The count combines statistical analysis of people staying in emergency shelter and transitional housing with surveys of people using various daytime service sites include drop-in centers, meal programs, and food pantries.</string>
 
+    <string name="title_activity_representative">RepresentativeActivity</string>
+    <string name="Select_a_Representative">Select a Representative</string>
+    <string name="photoDesc">Photo</string>
+    <string name="See_Official_Webpage">See Official Webpage</string>
+
 </resources>
