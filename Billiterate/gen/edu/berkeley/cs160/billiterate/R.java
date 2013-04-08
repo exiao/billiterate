@@ -23,23 +23,27 @@ public final class R {
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int thumbs_down_blk=0x7f020002;
-        public static final int thumbs_down_red=0x7f020003;
-        public static final int thumbs_up_blk=0x7f020004;
-        public static final int thumbs_up_grn=0x7f020005;
+        public static final int rating_bar=0x7f020002;
+        public static final int rating_bar_dislike=0x7f020003;
+        public static final int rating_bar_like=0x7f020004;
+        public static final int thumbs_down_blk=0x7f020005;
+        public static final int thumbs_down_red=0x7f020006;
+        public static final int thumbs_up_blk=0x7f020007;
+        public static final int thumbs_up_grn=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000c;
+        public static final int action_settings=0x7f08000d;
         public static final int bill_summary=0x7f080005;
         public static final int bill_view=0x7f080000;
         public static final int comment=0x7f080008;
         public static final int contact_rep=0x7f080007;
-        public static final int container=0x7f080009;
+        public static final int container=0x7f08000a;
         public static final int dislike=0x7f080004;
         public static final int get_more_info=0x7f080006;
         public static final int like=0x7f080003;
-        public static final int menu_search=0x7f08000b;
-        public static final int menu_settings=0x7f08000a;
+        public static final int menu_search=0x7f08000c;
+        public static final int menu_settings=0x7f08000b;
+        public static final int post=0x7f080009;
         public static final int ratings=0x7f080002;
         public static final int title=0x7f080001;
     }
@@ -60,6 +64,7 @@ public final class R {
         public static final int hello_world=0x7f050003;
         public static final int menu_search=0x7f050005;
         public static final int menu_settings=0x7f050004;
+        public static final int post=0x7f05000b;
         public static final int title_activity_bill_info=0x7f050006;
         public static final int title_section1=0x7f050002;
         public static final int title_section2=0x7f050001;

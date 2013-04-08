@@ -25,24 +25,27 @@
 		    android:layout_height="wrap_content"
 		    android:orientation="horizontal" >
 		    
-		    <ProgressBar 
+		    <ImageView 
 		        android:id="@+id/ratings"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="2" />
+		        android:layout_width="0dp"
+		        android:layout_height="50dp"
+		        android:layout_weight="3"
+		        android:layout_marginRight="10dp"
+		        android:src="@drawable/rating_bar" />
 		    
 		    <ImageButton
 		        android:id="@+id/like"
-		        android:layout_width="5dp"
-		        android:layout_height="50dp"
+		        android:layout_width="0dp"
+		        android:layout_height="30dp"
 		        android:layout_weight="1"
+		        android:layout_marginRight="5dp"
 		        android:background="@drawable/thumbs_up_blk"
 		        android:onClick="likeBill" />
 		    
 		    <ImageButton
 		        android:id="@+id/dislike"
-		        android:layout_width="5dp"
-		        android:layout_height="50dp"
+		        android:layout_width="0dp"
+		        android:layout_height="30dp"
 		        android:layout_weight="1"
 		        android:onClick="dislikeBill"
 		        android:background="@drawable/thumbs_down_blk" />
@@ -69,12 +72,27 @@
 		    android:onClick="contact"
 		    android:text="@string/contact_rep" />
 		
-		<EditText 
-		    android:id="@+id/comment"
+		<LinearLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:hint="@string/add_comment"
-		    android:textSize="16sp" />
+		    android:orientation="horizontal" >
+		    
+		    <EditText 
+			    android:id="@+id/comment"
+			    android:layout_width="0dp"
+			    android:layout_height="wrap_content"
+			    android:hint="@string/add_comment"
+			    android:textSize="16sp"
+			    android:layout_weight="2" />
+		    
+		    <Button 
+		        android:id="@+id/post"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/post"
+		        android:onClick="postComment" />
+		    
+		</LinearLayout>
 	
 	</LinearLayout>
 	

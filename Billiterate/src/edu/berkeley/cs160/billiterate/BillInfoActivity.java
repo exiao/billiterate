@@ -6,8 +6,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class BillInfoActivity extends Activity {
@@ -18,15 +19,17 @@ public class BillInfoActivity extends Activity {
 	// get view widgets for modification
 	LinearLayout bill_view;
 	TextView bill_title_textview;
-	ProgressBar	ratings;
+	//ProgressBar	ratings;
+	ImageView ratings;
 	ImageButton like;
 	ImageButton dislike;
 	TextView summary;
-	EditText comment;
+	EditText commentBox;
 	
 	String representative = "";
 	
-	boolean liked;
+	boolean liked = false;;
+	boolean disliked = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +41,18 @@ public class BillInfoActivity extends Activity {
 		
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
-		ratings = (ProgressBar)findViewById(R.id.ratings);
+		//ratings = (ProgressBar)findViewById(R.id.ratings);
+		ratings = (ImageView)findViewById(R.id.ratings);
 		like = (ImageButton)findViewById(R.id.like);
 		dislike = (ImageButton)findViewById(R.id.dislike);
 		summary = (TextView)findViewById(R.id.bill_summary);
-		comment = (EditText)findViewById(R.id.comment);
+		commentBox = (EditText)findViewById(R.id.comment);
 		
 		// display bill information
 		bill_title_textview.setText(bill_title);
 		
 		//getBillSettings(bill_title);
 		setSummary(bill_title);
-		like.setBackgroundResource(R.drawable.thumbs_up_blk);
-		dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
 		
 	}
 
@@ -219,13 +221,31 @@ public class BillInfoActivity extends Activity {
 	public void likeBill(View v) {
 		// TODO
 		// update ratings and increment progress bar
-		like.setBackgroundResource(R.drawable.thumbs_up_grn);
+		if (liked) {
+			like.setBackgroundResource(R.drawable.thumbs_up_blk);
+			ratings.setBackgroundResource(R.drawable.rating_bar);
+			liked = false;
+		} else {
+			like.setBackgroundResource(R.drawable.thumbs_up_grn);
+			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
+			ratings.setBackgroundResource(R.drawable.rating_bar_like);
+			liked = true;
+		}
 	}
 	
 	public void dislikeBill(View v) {
 		// TODO
 		// update ratings and decrement progress bar
-		dislike.setBackgroundResource(R.drawable.thumbs_down_red);
+		if (disliked) {
+			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
+			ratings.setBackgroundResource(R.drawable.rating_bar);
+			disliked = false;
+		} else {
+			dislike.setBackgroundResource(R.drawable.thumbs_down_red);
+			like.setBackgroundResource(R.drawable.thumbs_up_blk);
+			ratings.setBackgroundResource(R.drawable.rating_bar_dislike);
+			disliked = true;
+		}
 	}
 	
 	public void getInfo(View v) {
@@ -236,6 +256,16 @@ public class BillInfoActivity extends Activity {
 	public void contact(View v) {
 		// TODO
 		// takes user to representative's info screen
+		//Intent i = new Intent(this, ReprActivity.class);
+		//i.putExtra("representative", representative);
+		//startActivity(i);
+	}
+	
+	public void postComment(View v) {
+		TextView commentText = new TextView(this);
+		commentText.setText(commentBox.getText());
+		commentText.setLayoutParams(new LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT ));
+		bill_view.addView(commentText);
 	}
 
 }

@@ -12,5 +12,6 @@
     <string name="get_information">Get More Information</string>
     <string name="contact_rep">Contact Representative</string>
     <string name="add_comment">Add a comment</string>
+    <string name="post">Post</string>
 
 </resources>
