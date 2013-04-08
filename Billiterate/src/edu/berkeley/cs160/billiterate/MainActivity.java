@@ -42,9 +42,9 @@ public class MainActivity extends FragmentActivity implements
 				
 				
 		// TEMPORARY for testing
-		Intent i = new Intent(this, RepresentativeActivity.class);
+		/*Intent i = new Intent(this, RepresentativeActivity.class);
 		i.putExtra("representative", "Linda Maio");
-		startActivity(i);
+		startActivity(i);*/
 		
 		/*Intent i = new Intent(this, BillInfoActivity.class);
 		i.putExtra("title", "Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060");
