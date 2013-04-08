@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical">
+    
+        <TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:textSize="20sp"
+        	android:background="@drawable/border"
+        	android:padding="3sp"
+        	android:text="@string/bid_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick"/>
+        	
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:textSize="20sp"
+        	android:background="@drawable/border"
+        	android:padding="3sp"
+        	android:text="@string/side_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick"/>
+        
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:textSize="20sp"
+        	android:background="@drawable/border"
+        	android:padding="3sp"
+        	android:text="@string/bid_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick"/>
+    	
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:textSize="20sp"
+        	android:background="@drawable/border"
+        	android:padding="3sp"
+        	android:text="@string/shelter_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
+    	
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:textSize="20sp"
+        	android:background="@drawable/border"
+        	android:padding="3sp"
+        	android:text="@string/solicit_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />		
+    
+</LinearLayout>

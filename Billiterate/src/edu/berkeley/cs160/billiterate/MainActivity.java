@@ -22,6 +22,7 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	private Fragment agendaFragment;
+	private Fragment trendingFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 		
 		this.agendaFragment = new AgendaFragment();
+		this.trendingFragment = new TrendingFragment();
 		
 		// Set up the action bar to show tabs.
 		final ActionBar actionBar = getActionBar();
@@ -83,14 +85,11 @@ public class MainActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, agendaFragment).commit();
 			return;
+		} else {
+			getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container, trendingFragment).commit();
+			return;
 		}
-		Fragment fragment = new DummySectionFragment();
-		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
-				tab.getPosition() + 1);
-		fragment.setArguments(args);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.container, fragment).commit();
 	}
 
 	@Override
@@ -154,6 +153,17 @@ public class MainActivity extends FragmentActivity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 				Bundle savedInstanceState) {
 			return inflater.inflate(R.layout.agenda_layout, container, false);
+		}
+	}
+	
+	public static class TrendingFragment extends Fragment {
+		public TrendingFragment() {
+		}
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+				Bundle savedInstanceState) {
+			return inflater.inflate(R.layout.trending_layout, container, false);
 		}
 	}
 

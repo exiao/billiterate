@@ -1,7 +1,7 @@
 package edu.berkeley.cs160.billiterate;
 
-import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -72,94 +72,94 @@ public class BillInfoActivity extends Activity {
 	public void setSummary(String title) {
 		if (title.equals("Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060")) {
 			summary.setText(R.string.late_s);
-			representative = "Eric Angstadt";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Amending BMC Chapter 9.32 Massage Ordinance: Exempting Chair Massage")) {
 			summary.setText(R.string.massage_s);
-			representative = "Zach Cowan";
+			representative = "Darryl Moore";
 		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled for Possible Issuance After " +
 				"Council Approval on April 2, 2013")) {
 			summary.setText(R.string.bid_s);
-			representative = "Robert Hicks";
+			representative = "Darryl Moore";
 		} else if (title.equals("Contract No. 7722D Amendment: Milliman, Inc. for Actuarial Services")) {
 			summary.setText(R.string.milliman_s);
-			representative = "David Abel";
+			representative = "Linda Maio";
 		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled for " +
 				"Possible Issuance After Council Approval on March 19, 2013")) {
 			summary.setText(R.string.solicit_s);
-			representative = "Robert Hicks";
+			representative = "Darryl Moore";
 		} else if (title.equals("Revenue Contract: County of Alameda for Shelter Plus Care Program")) {
 			summary.setText(R.string.shelter_s);
-			representative = "Jane Micallef";
+			representative = "Linda Maio";
 		} else if (title.equals("Classification: Assistant Human Resources Analyst")) {
 			summary.setText(R.string.ahra_s);
-			representative = "David Abel";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Lease: Women's Daytime Drop-In Center at 2218 Acton Street")) {
 			summary.setText(R.string.womens_s);
-			representative = "Jane Micallef";
+			representative = "Linda Maio";
 		} else if (title.equals("Lease Amendment: International Computer Science Institute at 1947 Center Street")) {
 			summary.setText(R.string.csi_s);
-			representative = "Robert Hicks";
+			representative = "Darryl Moore";
 		} else if (title.equals("City Council Rules of Procedure and Order")) {
 			summary.setText(R.string.rules_s);
-			representative = "Eric Angstadt";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled For Possible Issuance After " +
 				"Council Approval on March 5, 2013")) {
 			summary.setText(R.string.insure_s);
-			representative = "Robert Hicks";
+			representative = "Linda Maio";
 		} else if (title.equals("Cleanup Amendment to Taxi Ordinance (BMC Chapter 9.52)")) {
 			summary.setText(R.string.taxi_s);
-			representative = "Zach Cowan";
+			representative = "Darryl Moore";
 		} else if (title.equals("Enact Chapter 13.79, Automatically Renewing Leases")) {
 			summary.setText(R.string.renew_s);
-			representative = "Zach Cowan";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Option Agreement - 3135 Harper Street")) {
 			summary.setText(R.string.harper_s);
-			representative = "Jane Micallef";
+			representative = "Linda Maio";
 		} else if (title.equals("Appointment of City Clerk")) {
 			summary.setText(R.string.clerk_s);
-			representative = "Eric Angstadt";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled For Possible Issuance After " +
 				"Council Approval on February 5, 2013")) {
 			summary.setText(R.string.feb_s);
-			representative = "Robert Hicks";
+			representative = "Darryl Moore";
 		} else if (title.equals("Option Agreement - 3135 Harper Street (Revised)")) {
 			summary.setText(R.string.harper_rev_s);
-			representative = "Jane Micallef";
+			representative = "Linda Maio";
 		} else if (title.equals("Contract: ACS State and Local Solutions for a Parking Citation Management Solution")) {
 			summary.setText(R.string.acs_s);
-			representative = "Zach Cowan";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Contract: AJW Construction for FY 2013 Responsive Sidewalk Project Phase 1")) {
 			summary.setText(R.string.ajw_s);
-			representative = "Robert Hicks";
+			representative = "Darryl Moore";
 		} else if (title.equals("Cleanup Amendment to Taxi Ordinance (BMC Chapter 9.52)")) {
 			summary.setText(R.string.cleanup_s);
-			representative = "Zach Cowan";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Enact Chapter 13.79, Automatically Renewing Leases")) {
 			summary.setText(R.string.enact_s);
-			representative = "Zach Cowan";
+			representative = "Maxwell Andersom";
 		} else if (title.equals("Contract No. 8460A Amendment: NextGen Healthcare Information " +
 				"Systems Inc. for an Electronic Records System and Related Services")) {
 			summary.setText(R.string.nextgen_s);
-			representative = "Jane Micallef";
+			representative = "Linda Maio";
 		} else if (title.equals("Amending Waste Management Authority Joint Powers Agreement")) {
 			summary.setText(R.string.waste_s);
-			representative = "Eric Angstadt";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Fee Assessment - State of California Self-Insurance Fund (Workers' Compensation Program)")) {
 			summary.setText(R.string.fee_s);
-			representative = "David Abel";
+			representative = "Darryl Moore";
 		} else if (title.equals("Designate the Line of Succession for the Director of Emergency Services")) {
 			summary.setText(R.string.line_s);
-			representative = "Eric Angstadt";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Donation of Furniture for the Dona Spring Animal Shelter by Crate and Barrel")) {
 			summary.setText(R.string.dana_s);
-			representative = "Robert Hicks";
+			representative = "Maxwell Anderson";
 		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled For Possible Issuance After" +
 				" Council Approval on January 22, 2013")) {
 			summary.setText(R.string.jan_s);
-			representative = "Robert Hicks";
+			representative = "Darryl Moore";
 		} else if (title.equals("Compassionate Sidewalks Background Information")) {
 			summary.setText(R.string.side_s);
-			representative = "Jane Micallef";
+			representative = "Linda Maio";
 		}
 	}
 	
@@ -203,9 +203,9 @@ public class BillInfoActivity extends Activity {
 	public void contact(View v) {
 		// TODO
 		// takes user to representative's info screen
-		//Intent i = new Intent(this, ReprActivity.class);
-		//i.putExtra("representative", representative);
-		//startActivity(i);
+		Intent i = new Intent(this, RepresentativeActivity.class);
+		i.putExtra("representative", representative);
+		startActivity(i);
 	}
 	
 	public void postComment(View v) {
