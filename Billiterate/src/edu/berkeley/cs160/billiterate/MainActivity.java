@@ -2,6 +2,7 @@ package edu.berkeley.cs160.billiterate;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -100,6 +101,12 @@ public class MainActivity extends FragmentActivity implements
 		View parent = findViewById(R.id.agenda_layout);
 		View child = parent.findViewWithTag(viewTag);
 		child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+	}
+	
+	public void onBillClick(View view) {
+		Intent intent = new Intent(this, BillInfoActivity.class);
+		intent.putExtra("title", ((TextView) view).getText());
+		startActivity(intent);
 	}
 	
 	/**

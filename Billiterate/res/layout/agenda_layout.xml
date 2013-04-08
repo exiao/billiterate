@@ -32,19 +32,27 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/late_t" />
+        	android:text="@string/late_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/massage_t" />
+        	android:text="@string/massage_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/bid_t" />
+        	android:text="@string/bid_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick"/>
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/milliman_t" />
+        	android:text="@string/milliman_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick"/>
     </LinearLayout>
 	<TextView
         android:layout_width="match_parent"
@@ -63,7 +71,9 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/side_t" />
+        	android:text="@string/side_t" 
+        	android:clickable="true"
+        	android:onClick="onBillClick"/>
     </LinearLayout>        
     <TextView
         android:layout_width="match_parent"
@@ -82,15 +92,21 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/solicit_t" />
+        	android:text="@string/solicit_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/shelter_t" />
+        	android:text="@string/shelter_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/ahra_t" />
+        	android:text="@string/ahra_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -109,19 +125,27 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/womens_t" />
+        	android:text="@string/womens_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/csi_t" />
+        	android:text="@string/csi_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/rules_t" />
+        	android:text="@string/rules_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/insure_t" />
+        	android:text="@string/insure_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -140,19 +164,27 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/taxi_t" />
+        	android:text="@string/taxi_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/renew_t" />
+        	android:text="@string/renew_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/harper_t" />
+        	android:text="@string/harper_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/clerk_t" />
+        	android:text="@string/clerk_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -171,19 +203,27 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/feb_t" />
+        	android:text="@string/feb_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/harper_rev_t" />
+        	android:text="@string/harper_rev_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/acs_t" />
+        	android:text="@string/acs_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/ajw_t" />
+        	android:text="@string/ajw_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -202,19 +242,27 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/cleanup_t" />
+        	android:text="@string/cleanup_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/enact_t" />
+        	android:text="@string/enact_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/nextgen_t" />
+        	android:text="@string/nextgen_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/waste_t" />
+        	android:text="@string/waste_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -233,19 +281,27 @@
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/fee_t" />
+        	android:text="@string/fee_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/line_t" />
+        	android:text="@string/line_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/dana_t" />
+        	android:text="@string/dana_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     	<TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
-        	android:text="@string/jan_t" />
+        	android:text="@string/jan_t"
+        	android:clickable="true"
+        	android:onClick="onBillClick" />
     </LinearLayout>
 
 </LinearLayout>

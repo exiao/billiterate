@@ -12,6 +12,10 @@ public final class R {
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+    
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
@@ -19,24 +23,28 @@ public final class R {
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int thumbs_down_blk=0x7f020002;
-        public static final int thumbs_down_red=0x7f020003;
-        public static final int thumbs_up_blk=0x7f020004;
-        public static final int thumbs_up_grn=0x7f020005;
+        public static final int rating_bar=0x7f020002;
+        public static final int rating_bar_dislike=0x7f020003;
+        public static final int rating_bar_like=0x7f020004;
+        public static final int thumbs_down_blk=0x7f020005;
+        public static final int thumbs_down_red=0x7f020006;
+        public static final int thumbs_up_blk=0x7f020007;
+        public static final int thumbs_up_grn=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000d;
-        public static final int agenda_layout=0x7f08000a;
+        public static final int action_settings=0x7f08000e;
+        public static final int agenda_layout=0x7f08000b;
         public static final int bill_summary=0x7f080005;
         public static final int bill_view=0x7f080000;
         public static final int comment=0x7f080008;
         public static final int contact_rep=0x7f080007;
-        public static final int container=0x7f080009;
+        public static final int container=0x7f08000a;
         public static final int dislike=0x7f080004;
         public static final int get_more_info=0x7f080006;
         public static final int like=0x7f080003;
-        public static final int menu_search=0x7f08000c;
-        public static final int menu_settings=0x7f08000b;
+        public static final int menu_search=0x7f08000d;
+        public static final int menu_settings=0x7f08000c;
+        public static final int post=0x7f080009;
         public static final int ratings=0x7f080002;
         public static final int title=0x7f080001;
     }
@@ -50,19 +58,83 @@ public final class R {
         public static final int bill_info=0x7f070001;
     }
     public static final class string {
-        public static final int action_settings=0x7f050009;
-        public static final int add_comment=0x7f05000c;
-        public static final int agenda_text=0x7f050006;
-        public static final int alt_text=0x7f050007;
+        public static final int acs_s=0x7f050038;
+        public static final int acs_t=0x7f050037;
+        public static final int action_settings=0x7f050008;
+        public static final int add_comment=0x7f05000b;
+        public static final int ahra_s=0x7f050022;
+        public static final int ahra_t=0x7f050021;
+        public static final int ajw_s=0x7f05003a;
+        public static final int ajw_t=0x7f050039;
+        public static final int alt_text=0x7f050006;
         public static final int app_name=0x7f050000;
-        public static final int contact_rep=0x7f05000b;
-        public static final int get_information=0x7f05000a;
+        public static final int april_two=0x7f05000d;
+        public static final int april_two_spec=0x7f05000e;
+        public static final int bid_s=0x7f05001a;
+        public static final int bid_t=0x7f050019;
+        public static final int cleanup_s=0x7f05003c;
+        public static final int cleanup_t=0x7f05003b;
+        public static final int clerk_s=0x7f050032;
+        public static final int clerk_t=0x7f050031;
+        public static final int contact_rep=0x7f05000a;
+        public static final int csi_s=0x7f050026;
+        public static final int csi_t=0x7f050025;
+        public static final int dana_s=0x7f050048;
+        public static final int dana_t=0x7f050047;
+        public static final int enact_s=0x7f05003e;
+        public static final int enact_t=0x7f05003d;
+        public static final int feb_five=0x7f050012;
+        public static final int feb_nineteen=0x7f050011;
+        public static final int feb_s=0x7f050034;
+        public static final int feb_t=0x7f050033;
+        public static final int fee_s=0x7f050044;
+        public static final int fee_t=0x7f050043;
+        public static final int get_information=0x7f050009;
+        public static final int harper_rev_s=0x7f050036;
+        public static final int harper_rev_t=0x7f050035;
+        public static final int harper_s=0x7f050030;
+        public static final int harper_t=0x7f05002f;
         public static final int hello_world=0x7f050003;
+        public static final int insure_s=0x7f05002a;
+        public static final int insure_t=0x7f050029;
+        public static final int jan_s=0x7f05004a;
+        public static final int jan_t=0x7f050049;
+        public static final int jan_twentynine=0x7f050013;
+        public static final int jan_twentytwo=0x7f050014;
+        public static final int late_s=0x7f050016;
+        public static final int late_t=0x7f050015;
+        public static final int line_s=0x7f050046;
+        public static final int line_t=0x7f050045;
+        public static final int march_five=0x7f050010;
+        public static final int march_nineteen=0x7f05000f;
+        public static final int massage_s=0x7f050018;
+        public static final int massage_t=0x7f050017;
         public static final int menu_search=0x7f050005;
         public static final int menu_settings=0x7f050004;
-        public static final int title_activity_bill_info=0x7f050008;
+        public static final int milliman_s=0x7f05001c;
+        public static final int milliman_t=0x7f05001b;
+        public static final int nextgen_s=0x7f050040;
+        public static final int nextgen_t=0x7f05003f;
+        public static final int post=0x7f05000c;
+        public static final int renew_s=0x7f05002e;
+        public static final int renew_t=0x7f05002d;
+        public static final int rules_s=0x7f050028;
+        public static final int rules_t=0x7f050027;
+        public static final int shelter_s=0x7f050020;
+        public static final int shelter_t=0x7f05001f;
+        public static final int side_s=0x7f05004c;
+        public static final int side_t=0x7f05004b;
+        public static final int solicit_s=0x7f05001e;
+        public static final int solicit_t=0x7f05001d;
+        public static final int taxi_s=0x7f05002c;
+        public static final int taxi_t=0x7f05002b;
+        public static final int title_activity_bill_info=0x7f050007;
         public static final int title_section1=0x7f050002;
         public static final int title_section2=0x7f050001;
+        public static final int waste_s=0x7f050042;
+        public static final int waste_t=0x7f050041;
+        public static final int womens_s=0x7f050024;
+        public static final int womens_t=0x7f050023;
     }
     public static final class style {
         /** 
