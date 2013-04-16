@@ -111,7 +111,7 @@ public class RepresentativeActivity extends Activity {
 						}
 					});
 				} catch (Throwable e) {
-					throw new RuntimeException(e);
+					//throw new RuntimeException(e);
 				}
 
 				return null;
