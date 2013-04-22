@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -198,8 +199,11 @@ public class BillInfoActivity extends Activity {
 	}
 	
 	public void getInfo(View v) {
-		// TODO
-		// open webview with more info on bill
+		String billQuery = bill_title.replace(" ", "+");
+		String search = "http://www.google.com/search?q=" + billQuery;
+		Uri uri = Uri.parse(search);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
 	}
 	
 	public void contact(View v) {
