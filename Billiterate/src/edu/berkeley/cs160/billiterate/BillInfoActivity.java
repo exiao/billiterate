@@ -1,10 +1,29 @@
 package edu.berkeley.cs160.billiterate;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -12,7 +31,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class BillInfoActivity extends Activity {
@@ -35,6 +55,9 @@ public class BillInfoActivity extends Activity {
 	boolean liked = false;;
 	boolean disliked = false;
 
+	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	SimpleAdapter adapter; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,6 +81,11 @@ public class BillInfoActivity extends Activity {
 		//getBillSettings(bill_title);
 		setSummary(bill_title);
 		
+		adapter = new SimpleAdapter(this, data, R.layout.comment_layout, 
+					new String[] {"Name", "Comment", "ID"}, 
+					new int[] {R.id.nameText, R.id.commentText, R.id.IDText});
+		ListView comments = (ListView) findViewById(R.id.comments);
+		comments.setAdapter(adapter);
 	}
 
 	@Override
@@ -206,6 +234,11 @@ public class BillInfoActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	public void load(View v) {
+		LoadTask task = new LoadTask();
+		task.execute();
+	}
+	
 	public void contact(View v) {
 		// TODO
 		// takes user to representative's info screen
@@ -214,15 +247,97 @@ public class BillInfoActivity extends Activity {
 		startActivity(i);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void postComment(View v) {
-		TextView commentText = new TextView(this);
+		/*TextView commentText = new TextView(this);
 		commentText.setText(commentBox.getText());
 		commentText.setLayoutParams(new LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT ));
 		commentText.setBackgroundDrawable(BillInfoActivity.this.getResources().getDrawable(R.drawable.black_border));
-		bill_view.addView(commentText);
+		bill_view.addView(commentText);*/
+		String commentText = commentBox.getText().toString();
+		String name = "Anonymous"; // Will eventually be populated by Facebook login
+		PostTask post = new PostTask();
+		post.execute(name, commentText);
 		
 		commentBox.setText("");
 	}
-
+	
+	private class PostTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String...params) {
+			String url = "http://billiterate.pythonanywhere.com/messages";
+			HttpResponse response;
+			HttpClient client = new DefaultHttpClient();
+			try {
+				HttpPost post = new HttpPost(url);
+				List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+				postParameters.add(new BasicNameValuePair("name", params[0]));
+				postParameters.add(new BasicNameValuePair("comment", params[1]));
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParameters);
+				post.setEntity(entity);
+				response = client.execute(post);
+			} catch (ClientProtocolException cpe) {
+				cpe.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String arg0) {
+			load(null);
+		}
+	}
+	private class LoadTask extends AsyncTask<Void, Void, JSONArray> {
+		
+		protected JSONArray doInBackground(Void...arg0) {
+			String url = "http://billiterate.pythonanywhere.com/messages";
+			HttpResponse response;
+			HttpClient client = new DefaultHttpClient();
+			String responseString = "";
+			
+			try {
+				response = client.execute(new HttpGet(url));
+				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					response.getEntity().writeTo(out);
+					out.close();
+					responseString = out.toString();
+				} else {
+					response.getEntity().getContent().close();
+				}
+			} catch (ClientProtocolException cpe) {
+				cpe.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			try {
+				JSONArray messages = new JSONArray(responseString);
+				return messages;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute(JSONArray messageList) {
+			data.clear();
+			if (messageList == null) {
+				return;
+			}
+			for (int i = 0; i < messageList.length(); i++) {
+				try {
+					JSONArray current = messageList.getJSONArray(i);
+					Map<String, String> listItem = new HashMap<String, String>(2);
+					listItem.put("ID", current.getString(0));
+					listItem.put("Name", current.getString(1));
+					listItem.put("Comment", current.getString(2));
+					data.add(listItem);
+				} catch (JSONException e ) {
+					e.printStackTrace();
+				}
+			}
+			adapter.notifyDataSetChanged();
+		}
+	}
 }

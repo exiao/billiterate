@@ -96,6 +96,11 @@
 		        android:onClick="postComment" />
 		    
 		</LinearLayout>
+		
+		<ListView 
+		    android:id="@+id/comments"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" />
 	
 	</LinearLayout>
 	
