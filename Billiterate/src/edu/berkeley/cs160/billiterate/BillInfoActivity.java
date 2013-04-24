@@ -67,7 +67,7 @@ public class BillInfoActivity extends Activity {
 		
 		Bundle extras = this.getIntent().getExtras();
 		bill_title = extras.getString("title");
-		billId = bill_title.hashCode();
+		billId = Math.abs(bill_title.hashCode());
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
 		//ratings = (ProgressBar)findViewById(R.id.ratings);
@@ -260,7 +260,8 @@ public class BillInfoActivity extends Activity {
 		String commentText = commentBox.getText().toString();
 		String name = "Anonymous"; // Will eventually be populated by Facebook login
 		PostTask post = new PostTask();
-		post.execute(name, commentText, Integer.toString(billId));
+		post.execute(Integer.toString(billId), name, commentText);
+		//System.err.println("bill ID = " + Integer.toString(billId));
 		
 		commentBox.setText("");
 	}
@@ -268,21 +269,24 @@ public class BillInfoActivity extends Activity {
 	private class PostTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String...params) {
-			String url = "http://billiterate.pythonanywhere.com/messages";
+			String url = "http://billiterate.pythonanywhere.com/messages/" + billId;
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			try {
 				HttpPost post = new HttpPost(url);
 				List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-				postParameters.add(new BasicNameValuePair("name", params[0]));
-				postParameters.add(new BasicNameValuePair("comment", params[1]));
-				postParameters.add(new BasicNameValuePair("bill", params[2]));
+				postParameters.add(new BasicNameValuePair("bill", params[0]));
+				postParameters.add(new BasicNameValuePair("name", params[1]));
+				postParameters.add(new BasicNameValuePair("comment", params[2]));
 				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParameters);
 				post.setEntity(entity);
 				response = client.execute(post);
+				System.err.println("Posting " + postParameters.toString() + "to " + url);
 			} catch (ClientProtocolException cpe) {
+				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				cpe.printStackTrace();
 			} catch (IOException e) {
+				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				e.printStackTrace();
 			}
 			return null;
@@ -296,7 +300,8 @@ public class BillInfoActivity extends Activity {
 	private class LoadTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		protected JSONArray doInBackground(Void...arg0) {
-			String url = "http://billiterate.pythonanywhere.com/messages";
+			String url = "http://billiterate.pythonanywhere.com/messages/" + Integer.toString(billId);
+			System.err.println("URL = " + url);
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			String responseString = "";
