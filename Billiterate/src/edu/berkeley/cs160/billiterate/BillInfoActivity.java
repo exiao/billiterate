@@ -92,9 +92,7 @@ public class BillInfoActivity extends Activity {
 		// set progress bar colors
 		down_ratings.getProgressDrawable().setColorFilter(Color.RED, Mode.MULTIPLY);
 		up_ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
-		likes = 10;
-		dislikes = 5;
-		setProgressBars();
+		loadProgressBars();
 		
 		adapter = new SimpleAdapter(this, data, R.layout.comment_layout, 
 					new String[] {"Name", "Comment", "ID"}, 
@@ -216,15 +214,19 @@ public class BillInfoActivity extends Activity {
 		// update ratings and increment progress bar
 		if (liked) {
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
-			//ratings.setImageResource(R.drawable.rating_bar);
+			likes = likes - 1;
 			liked = false;
 		} else {
 			like.setBackgroundResource(R.drawable.thumbs_up_grn);
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
-			//ratings.setImageResource(R.drawable.rating_bar_like);
+			likes = likes + 1;
 			liked = true;
-			disliked = false;
+			if (disliked) {
+				dislikes = dislikes - 1;
+				disliked = false;
+			}
 		}
+		setProgressBars();
 	}
 	
 	public void dislikeBill(View v) {
@@ -232,15 +234,19 @@ public class BillInfoActivity extends Activity {
 		// update ratings and decrement progress bar
 		if (disliked) {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
-			//ratings.setImageResource(R.drawable.rating_bar);
+			dislikes = dislikes - 1;
 			disliked = false;
 		} else {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_red);
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
-			//ratings.setImageResource(R.drawable.rating_bar_dislike);
+			dislikes = dislikes + 1;
 			disliked = true;
-			liked = false;
+			if (liked) {
+				likes = likes - 1;
+				liked = false;
+			}
 		}
+		setProgressBars();
 	}
 	
 	public void getInfo(View v) {
@@ -265,14 +271,101 @@ public class BillInfoActivity extends Activity {
 	}
 	
 	public void setProgressBars() {
-		float total = likes + dislikes;
-		if (total == 0) { total = 1; }
-		float up = (likes * 100) / total;
-		float down = (dislikes * 100) / total;
-		up_ratings.setProgress( (int) up);
-		down_ratings.setProgress( (int) down);
-		System.err.println("Up Progress = " + up);
-		System.err.println("Down Progress = " + down);
+		PostLikesTask task = new PostLikesTask();
+		task.execute();
+	}
+	
+	public void loadProgressBars() {
+		LoadLikesTask task = new LoadLikesTask();
+		task.execute();
+	}
+	
+	private class PostLikesTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String...params) {
+			String url = "http://billiterate.pythonanywhere.com/likes/" + Integer.toString(billId);
+			HttpResponse response;
+			HttpClient client = new DefaultHttpClient();
+			try {
+				HttpPost post = new HttpPost(url);
+				List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+				postParameters.add(new BasicNameValuePair("likes", Integer.toString(likes)));
+				postParameters.add(new BasicNameValuePair("dislikes", Integer.toString(dislikes)));
+				postParameters.add(new BasicNameValuePair("trending", Integer.toString(likes + dislikes)));
+				postParameters.add(new BasicNameValuePair("hash", Integer.toString(billId)));
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParameters);
+				post.setEntity(entity);
+				System.err.println("Posting " + postParameters.toString() + "to " + url);
+				response = client.execute(post);
+			} catch (ClientProtocolException cpe) {
+				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
+				cpe.printStackTrace();
+			} catch (IOException e) {
+				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String arg0) {
+			loadProgressBars();
+		}
+	}
+	private class LoadLikesTask extends AsyncTask<Void, Void, JSONArray> {
+		
+		protected JSONArray doInBackground(Void...arg0) {
+			String url = "http://billiterate.pythonanywhere.com/likes/" + Integer.toString(billId);
+			System.err.println("URL = " + url);
+			HttpResponse response;
+			HttpClient client = new DefaultHttpClient();
+			String responseString = "";
+			
+			try {
+				response = client.execute(new HttpGet(url));
+				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					response.getEntity().writeTo(out);
+					out.close();
+					responseString = out.toString();
+				} else {
+					response.getEntity().getContent().close();
+				}
+			} catch (ClientProtocolException cpe) {
+				cpe.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			try {
+				JSONArray messages = new JSONArray(responseString);
+				return messages;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute(JSONArray messageList) {
+			if (messageList == null) {
+				likes = 0;
+				dislikes = 0;
+			}
+			for (int i = 0; i < messageList.length(); i++) {
+				try {
+					JSONArray current = messageList.getJSONArray(i);
+					likes = Integer.parseInt(current.getString(0));
+					dislikes = Integer.parseInt(current.getString(1));
+				} catch (JSONException e ) {
+					System.err.print(messageList.toString());
+					e.printStackTrace();
+				}
+			}
+			float total = likes + dislikes;
+			float up = (likes * 100) / total;
+			float down = (dislikes * 100) / total;
+			up_ratings.setProgress( (int) up);
+			down_ratings.setProgress( (int) down);
+		}
 	}
 	
 	public void postComment(View v) {
@@ -293,7 +386,7 @@ public class BillInfoActivity extends Activity {
 	private class PostTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String...params) {
-			String url = "http://billiterate.pythonanywhere.com/messages/" + billId;
+			String url = "http://billiterate.pythonanywhere.com/messages/" + Integer.toString(billId);
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			try {
