@@ -15,14 +15,14 @@
     <string name="add_comment">Add a comment</string>
     <string name="post">Post</string>
     
-    <string name="april_two">April 2 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
-    <string name="april_two_spec">April 2 - Special\n5:30PM 2134 Martin Luther King Jr. Way</string>
-    <string name="march_nineteen">March 19 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
-    <string name="march_five">March 5 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
-    <string name="feb_nineteen">February 19 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
-    <string name="feb_five">February 5 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
-    <string name="jan_twentynine">January 29 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
-    <string name="jan_twentytwo">January 22 - City Council\n7:00PM 2134 Martin Luther King Jr. Way</string>
+    <string name="april_two">April 2 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="april_two_spec">April 2 - Special\n5:30PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="march_nineteen">March 19 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="march_five">March 5 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="feb_nineteen">February 19 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="feb_five">February 5 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="jan_twentynine">January 29 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
+    <string name="jan_twentytwo">January 22 - City Council\n7:00PM - 2134 Martin Luther King Jr. Way</string>
     
 	<string name="late_t">Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060</string>
 	<string name="late_s">Berkeley Municipal Code Section 23E.56.060 of the Zoning Ordinance to extend the allowable hours of operation for businesses in the Commercial Telegraph (C-T) District to include 24/7 hours north of Dwight Way and a required closing time of 12:00 a.m. south of Dwight Way.</string>

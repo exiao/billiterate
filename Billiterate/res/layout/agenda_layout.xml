@@ -8,8 +8,6 @@
     android:fillViewport="false">
     
 <LinearLayout 
-    
-    
     android:id="@+id/agenda_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,35 +26,56 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="2" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/late_t" 
+        	android:textSize="18sp"
         	android:clickable="true"
+        	android:gravity="left|center_vertical"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/massage_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/bid_t" 
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick"/>
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/milliman_t" 
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick"/>
     </LinearLayout>
@@ -73,14 +92,16 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="4" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/side_t" 
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick"/>
     </LinearLayout>        
@@ -97,28 +118,42 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="6" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/solicit_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/shelter_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/ahra_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
     </LinearLayout>
@@ -135,35 +170,56 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
-        android:orientation="vertical" 
+        android:paddingRight="23sp"
+        android:orientation="vertical"
+        android:gravity="left"
         android:tag="8" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/womens_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/csi_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/rules_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/insure_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
     </LinearLayout>
@@ -180,35 +236,55 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="10" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/taxi_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/renew_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/harper_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/clerk_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
     </LinearLayout>
@@ -225,35 +301,55 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="12" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/feb_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/harper_rev_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/acs_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/ajw_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
     </LinearLayout>
@@ -270,35 +366,55 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="14" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/cleanup_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/enact_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/nextgen_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/waste_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
     </LinearLayout>
@@ -315,35 +431,55 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingLeft="23sp"
+        android:paddingRight="23sp"
         android:orientation="vertical" 
         android:tag="16" 
         android:visibility="gone">
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/fee_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/line_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/dana_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
+    	<View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="1dp"
+	    	android:background="@android:color/darker_gray"/>
     	<TextView
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:padding="3sp"
         	android:text="@string/jan_t"
+        	android:textSize="18sp"
         	android:clickable="true"
         	android:onClick="onBillClick" />
     </LinearLayout>
