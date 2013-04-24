@@ -27,13 +27,29 @@
 		    android:orientation="horizontal" 
 		    android:layout_marginBottom="10dp">
 		    
+		    <ProgressBar 
+		        android:id="@+id/red_progress"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="2"
+		        style="@android:style/Widget.ProgressBar.Horizontal" 
+		        android:rotationY="180"/>
+		    
+		    <ProgressBar 
+		        android:id="@+id/green_progress"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="2"
+		        style="@android:style/Widget.ProgressBar.Horizontal" 
+		        android:layout_marginRight="10dp"/>
+		    <!--     
 		    <ImageView 
 		        android:id="@+id/ratings"
 		        android:layout_width="0dp"
 		        android:layout_height="50dp"
 		        android:layout_weight="6"
 		        android:layout_marginRight="10dp"
-		        android:src="@drawable/rating_bar" />
+		        android:src="@drawable/rating_bar" /> -->
 		    
 		    <ImageButton
 		        android:id="@+id/like"

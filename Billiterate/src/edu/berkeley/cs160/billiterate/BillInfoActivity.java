@@ -19,10 +19,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -45,7 +47,10 @@ public class BillInfoActivity extends Activity {
 	LinearLayout bill_view;
 	TextView bill_title_textview;
 	//ProgressBar	ratings;
-	ImageView ratings;
+	ProgressBar down_ratings;
+	ProgressBar up_ratings;
+	int likes;
+	int dislikes;
 	ImageButton like;
 	ImageButton dislike;
 	TextView summary;
@@ -71,7 +76,8 @@ public class BillInfoActivity extends Activity {
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
 		//ratings = (ProgressBar)findViewById(R.id.ratings);
-		ratings = (ImageView)findViewById(R.id.ratings);
+		down_ratings = (ProgressBar)findViewById(R.id.red_progress);
+		up_ratings = (ProgressBar)findViewById(R.id.green_progress);
 		like = (ImageButton)findViewById(R.id.like);
 		dislike = (ImageButton)findViewById(R.id.dislike);
 		summary = (TextView)findViewById(R.id.bill_summary);
@@ -82,6 +88,13 @@ public class BillInfoActivity extends Activity {
 		
 		//getBillSettings(bill_title);
 		setSummary(bill_title);
+		
+		// set progress bar colors
+		down_ratings.getProgressDrawable().setColorFilter(Color.RED, Mode.MULTIPLY);
+		up_ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
+		likes = 10;
+		dislikes = 5;
+		setProgressBars();
 		
 		adapter = new SimpleAdapter(this, data, R.layout.comment_layout, 
 					new String[] {"Name", "Comment", "ID"}, 
@@ -203,12 +216,12 @@ public class BillInfoActivity extends Activity {
 		// update ratings and increment progress bar
 		if (liked) {
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
-			ratings.setImageResource(R.drawable.rating_bar);
+			//ratings.setImageResource(R.drawable.rating_bar);
 			liked = false;
 		} else {
 			like.setBackgroundResource(R.drawable.thumbs_up_grn);
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
-			ratings.setImageResource(R.drawable.rating_bar_like);
+			//ratings.setImageResource(R.drawable.rating_bar_like);
 			liked = true;
 			disliked = false;
 		}
@@ -219,12 +232,12 @@ public class BillInfoActivity extends Activity {
 		// update ratings and decrement progress bar
 		if (disliked) {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
-			ratings.setImageResource(R.drawable.rating_bar);
+			//ratings.setImageResource(R.drawable.rating_bar);
 			disliked = false;
 		} else {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_red);
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
-			ratings.setImageResource(R.drawable.rating_bar_dislike);
+			//ratings.setImageResource(R.drawable.rating_bar_dislike);
 			disliked = true;
 			liked = false;
 		}
@@ -249,6 +262,17 @@ public class BillInfoActivity extends Activity {
 		Intent i = new Intent(this, RepresentativeActivity.class);
 		i.putExtra("representative", representative);
 		startActivity(i);
+	}
+	
+	public void setProgressBars() {
+		float total = likes + dislikes;
+		if (total == 0) { total = 1; }
+		float up = (likes * 100) / total;
+		float down = (dislikes * 100) / total;
+		up_ratings.setProgress( (int) up);
+		down_ratings.setProgress( (int) down);
+		System.err.println("Up Progress = " + up);
+		System.err.println("Down Progress = " + down);
 	}
 	
 	public void postComment(View v) {
