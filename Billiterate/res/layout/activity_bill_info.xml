@@ -74,36 +74,37 @@
 		    android:layout_height="wrap_content"
 		    android:onClick="contact"
 		    android:text="@string/contact_rep" />
-		
 		<LinearLayout
-		    android:layout_width="fill_parent"
+		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:orientation="horizontal" >
+		    android:orientation="vertical" >
 		    
-		    <EditText
-		        android:id="@+id/comment"
-		        android:layout_width="0dp"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="2"
-		        android:hint="@string/add_comment"
-		        android:textSize="16sp" />
+			<LinearLayout
+		    	android:layout_width="fill_parent"
+		    	android:layout_height="wrap_content"
+		    	android:orientation="horizontal" >
 		    
-		    <Button 
-		        android:id="@+id/post"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/post"
-		        android:onClick="postComment" />
+		    	<EditText
+		        	android:id="@+id/comment"
+		        	android:layout_width="0dp"
+		        	android:layout_height="wrap_content"
+		        	android:layout_weight="2"
+		        	android:hint="@string/add_comment"
+		        	android:textSize="16sp" />
 		    
-		</LinearLayout>
-		
-	<ListView 
-		    android:id="@+id/comments"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content" >
+		    	<Button 
+		        	android:id="@+id/post"
+		        	android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:text="@string/post"
+		        	android:onClick="postComment" />
+		    </LinearLayout>
 		    
-	</ListView>	
-	
-	</LinearLayout>
-	
+		    <ListView
+		    	android:id="@+id/comments"
+		    	android:layout_width="fill_parent"
+		    	android:layout_height="wrap_content" >
+			</ListView>	
+		</LinearLayout>	
+	</LinearLayout>	
 </ScrollView>
