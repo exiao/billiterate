@@ -19,6 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -50,6 +51,7 @@ public class BillInfoActivity extends Activity {
 	TextView summary;
 	EditText commentBox;
 	
+	int billId;
 	String representative = "";
 	
 	boolean liked = false;;
@@ -65,7 +67,7 @@ public class BillInfoActivity extends Activity {
 		
 		Bundle extras = this.getIntent().getExtras();
 		bill_title = extras.getString("title");
-		
+		billId = bill_title.hashCode();
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
 		//ratings = (ProgressBar)findViewById(R.id.ratings);
@@ -86,6 +88,8 @@ public class BillInfoActivity extends Activity {
 					new int[] {R.id.nameText, R.id.commentText, R.id.IDText});
 		ListView comments = (ListView) findViewById(R.id.comments);
 		comments.setAdapter(adapter);
+		
+		load(null);
 	}
 
 	@Override
@@ -256,7 +260,7 @@ public class BillInfoActivity extends Activity {
 		String commentText = commentBox.getText().toString();
 		String name = "Anonymous"; // Will eventually be populated by Facebook login
 		PostTask post = new PostTask();
-		post.execute(name, commentText);
+		post.execute(name, commentText, Integer.toString(billId));
 		
 		commentBox.setText("");
 	}
@@ -272,6 +276,7 @@ public class BillInfoActivity extends Activity {
 				List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 				postParameters.add(new BasicNameValuePair("name", params[0]));
 				postParameters.add(new BasicNameValuePair("comment", params[1]));
+				postParameters.add(new BasicNameValuePair("bill", params[2]));
 				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParameters);
 				post.setEntity(entity);
 				response = client.execute(post);
@@ -334,6 +339,7 @@ public class BillInfoActivity extends Activity {
 					listItem.put("Comment", current.getString(2));
 					data.add(listItem);
 				} catch (JSONException e ) {
+					System.err.print(data.toString());
 					e.printStackTrace();
 				}
 			}
