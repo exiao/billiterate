@@ -1,8 +1,21 @@
 package edu.berkeley.cs160.billiterate;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -163,7 +176,71 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 				Bundle savedInstanceState) {
-			return inflater.inflate(R.layout.trending_layout, container, false);
+			View ret = inflater.inflate(R.layout.trending_layout, container, false);
+			LoadTrendingTask task = new LoadTrendingTask();
+			task.execute();
+			return ret;
+		}
+		
+		private class LoadTrendingTask extends AsyncTask<Void, Void, JSONArray> {
+			protected void onPreExecute() {
+				System.err.println("Calling loadtrending");
+			}
+			
+			protected JSONArray doInBackground(Void...arg0) {
+				String url = "http://billiterate.pythonanywhere.com/trending";
+				System.err.println("URL = " + url);
+				HttpResponse response;
+				HttpClient client = new DefaultHttpClient();
+				String responseString = "";
+				
+				try {
+					response = client.execute(new HttpGet(url));
+					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						ByteArrayOutputStream out = new ByteArrayOutputStream();
+						response.getEntity().writeTo(out);
+						out.close();
+						responseString = out.toString();
+					} else {
+						response.getEntity().getContent().close();
+					}
+				} catch (ClientProtocolException cpe) {
+					cpe.printStackTrace();
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+				try {
+					JSONArray messages = new JSONArray(responseString);
+					return messages;
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+			
+			protected void onPostExecute(JSONArray messageList) {
+				if (messageList == null) {
+					// Leave an error message
+				}
+				TextView tv = null;
+				for (int i = 0; i < messageList.length(); i++) {
+					String title = "";
+					try {
+						JSONArray current = messageList.getJSONArray(i);
+						title = current.getString(0);
+					} catch (JSONException e ) {
+						System.err.print(messageList.toString());
+						e.printStackTrace();
+					}
+					if (i == 0) tv = (TextView) getView().findViewById(R.id.trending_one);
+					if (i == 1) tv = (TextView) getView().findViewById(R.id.trending_two);
+					if (i == 2) tv = (TextView) getView().findViewById(R.id.trending_three);
+					if (i == 3) tv = (TextView) getView().findViewById(R.id.trending_four);
+					if (i == 4) tv = (TextView) getView().findViewById(R.id.trending_five);
+					tv.setText(title);
+					tv.setVisibility(View.VISIBLE);
+				}
+			}
 		}
 	}
 

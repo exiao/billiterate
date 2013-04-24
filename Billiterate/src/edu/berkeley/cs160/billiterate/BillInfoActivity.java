@@ -273,11 +273,13 @@ public class BillInfoActivity extends Activity {
 	public void setProgressBars() {
 		PostLikesTask task = new PostLikesTask();
 		task.execute();
+		System.err.println("Finished setting progress bars");
 	}
 	
 	public void loadProgressBars() {
 		LoadLikesTask task = new LoadLikesTask();
 		task.execute();
+		System.err.println("Finished loading progress bars");
 	}
 	
 	private class PostLikesTask extends AsyncTask<String, Void, String> {

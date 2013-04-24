@@ -7,53 +7,58 @@
     android:orientation="vertical">
     
         <TextView
+            android:id="@+id/trending_one"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:textSize="20sp"
         	android:background="@drawable/border"
         	android:padding="3sp"
-        	android:text="@string/bid_t" 
         	android:clickable="true"
-        	android:onClick="onBillClick"/>
+        	android:onClick="onBillClick"
+        	android:visibility="gone"/>
         	
     	<TextView
+    	    android:id="@+id/trending_two"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:textSize="20sp"
         	android:background="@drawable/border"
-        	android:padding="3sp"
-        	android:text="@string/side_t" 
+        	android:padding="3sp" 
         	android:clickable="true"
-        	android:onClick="onBillClick"/>
+        	android:onClick="onBillClick"
+        	android:visibility="gone"/>
         
     	<TextView
+    	    android:id="@+id/trending_three"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:textSize="20sp"
         	android:background="@drawable/border"
-        	android:padding="3sp"
-        	android:text="@string/bid_t" 
+        	android:padding="3sp" 
         	android:clickable="true"
-        	android:onClick="onBillClick"/>
+        	android:onClick="onBillClick"
+        	android:visibility="gone"/>
     	
     	<TextView
+    	    android:id="@+id/trending_four"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:textSize="20sp"
         	android:background="@drawable/border"
         	android:padding="3sp"
-        	android:text="@string/shelter_t"
         	android:clickable="true"
-        	android:onClick="onBillClick" />
+        	android:onClick="onBillClick" 
+        	android:visibility="gone"/>
     	
     	<TextView
+    	    android:id="@+id/trending_five"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" 
         	android:textSize="20sp"
         	android:background="@drawable/border"
         	android:padding="3sp"
-        	android:text="@string/solicit_t"
         	android:clickable="true"
-        	android:onClick="onBillClick" />		
+        	android:onClick="onBillClick" 
+        	android:visibility="gone"/>		
     
 </LinearLayout>
