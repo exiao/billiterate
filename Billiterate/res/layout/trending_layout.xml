@@ -3,9 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="fill_parent" 
     android:orientation="vertical">
-    
+    	<ProgressBar
+    	    android:id="@+id/trending_progress"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content" 
+    	    android:layout_gravity="center_horizontal|center_vertical" />
         <TextView
             android:id="@+id/trending_one"
         	android:layout_width="fill_parent"

@@ -183,9 +183,9 @@ public class MainActivity extends FragmentActivity implements
 		}
 		
 		private class LoadTrendingTask extends AsyncTask<Void, Void, JSONArray> {
-			protected void onPreExecute() {
-				System.err.println("Calling loadtrending");
-			}
+			/*protected void onPreExecute() {
+				getView().findViewById(R.id.trending_progress).setVisibility(View.VISIBLE);
+			}*/
 			
 			protected JSONArray doInBackground(Void...arg0) {
 				String url = "http://billiterate.pythonanywhere.com/trending";
@@ -219,8 +219,11 @@ public class MainActivity extends FragmentActivity implements
 			}
 			
 			protected void onPostExecute(JSONArray messageList) {
+				getView().findViewById(R.id.trending_progress).setVisibility(View.GONE);
 				if (messageList == null) {
-					// Leave an error message
+					TextView err = ( (TextView) getView().findViewById(R.id.trending_one));
+					err.setText("There was an error");
+					err.setVisibility(View.VISIBLE);
 				}
 				TextView tv = null;
 				for (int i = 0; i < messageList.length(); i++) {
