@@ -8,5 +8,4 @@ gen/
 
 #class files
 *.class
-
-*.class
+R.java
