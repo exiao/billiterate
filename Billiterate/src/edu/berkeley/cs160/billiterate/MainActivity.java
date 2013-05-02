@@ -168,6 +168,7 @@ public class MainActivity extends FragmentActivity implements
 	public static class AgendaFragment extends Fragment {
 		
 		ArrayList<Meeting> meetingsList = new ArrayList<Meeting>();
+		LinearLayout ll;
 		
 		public AgendaFragment() {
 		}
@@ -176,27 +177,26 @@ public class MainActivity extends FragmentActivity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View agenda = inflater.inflate(R.layout.agenda_layout, container, false);
-			LinearLayout ll = (LinearLayout)agenda.findViewById(R.id.agenda_layout);
+			ll = (LinearLayout)agenda.findViewById(R.id.agenda_layout);
 			LoadAgendaTask load_agenda = new LoadAgendaTask();
 			load_agenda.execute();
 			System.err.println("executed loading agenda");
-			setAgendaView(agenda, ll);
 			return agenda;
 		}
 		
-		public void setAgendaView(View v, LinearLayout ll) {
+		public void setAgendaView(LinearLayout ll) {
 
 			OnClickListener clickAgenda = new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					String viewTag = (String) v.getTag();
-					int tagNum = Integer.parseInt(viewTag);
-					tagNum += 1;
-					viewTag = Integer.toString(tagNum);
+					int viewTag = (Integer)v.getTag();
+					int tagNum = viewTag + 1;
+					//viewTag = Integer.toString(tagNum);
 					View parent = getView().findViewById(R.id.agenda_layout);
-					View child = parent.findViewWithTag(viewTag);
+					//View child = parent.findViewWithTag(viewTag);
+					View child = parent.findViewWithTag(tagNum);
 					child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
 				}
 				
@@ -228,7 +228,7 @@ public class MainActivity extends FragmentActivity implements
 				mtHeading.setBackgroundResource(R.drawable.border);
 				//mtHeading.setBackground(this.getResources().getDrawable(R.drawable.border));
 				mtHeading.setTag(i);
-				mtHeading.setText(mt.type + mt.time);
+				mtHeading.setText(mt.type + " " + mt.time);
 				mtHeading.setTextSize(25);
 				mtHeading.setClickable(true);
 				mtHeading.setOnClickListener(clickAgenda);
@@ -377,6 +377,7 @@ public class MainActivity extends FragmentActivity implements
 						meetingsList.add(mt);
 						System.err.println("After adding meeting to list, there are " + meetingsList.size() + " meetings!");
 					}
+					setAgendaView(ll);
 				}
 				
 			}
