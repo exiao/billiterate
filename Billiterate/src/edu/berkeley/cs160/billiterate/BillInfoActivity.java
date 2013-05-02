@@ -264,8 +264,6 @@ public class BillInfoActivity extends Activity {
 	}
 	
 	public void contact(View v) {
-		// TODO
-		// takes user to representative's info screen
 		Intent i = new Intent(this, RepresentativeActivity.class);
 		i.putExtra("representative", representative);
 		startActivity(i);
@@ -352,7 +350,11 @@ public class BillInfoActivity extends Activity {
 			if (messageList == null) {
 				likes = 0;
 				dislikes = 0;
+				up_ratings.setProgress(0);
+				down_ratings.setProgress(0);
+				return;
 			}
+			
 			for (int i = 0; i < messageList.length(); i++) {
 				try {
 					JSONArray current = messageList.getJSONArray(i);

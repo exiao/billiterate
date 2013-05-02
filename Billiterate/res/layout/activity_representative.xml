@@ -27,66 +27,72 @@
         android:layout_below="@+id/selectLabel"
         android:background="@color/black" />
 
-    <TextView
-        android:id="@+id/name"
+    <RelativeLayout
+        android:id="@+id/repPart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/divider"
-        android:padding="20dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="28sp" />
+        android:layout_below="@+id/divider" >
 
-    <ImageView
-        android:id="@+id/photo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/name"
-        android:contentDescription="@string/photoDesc" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="20dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="28sp" />
 
-    <ProgressBar
-        android:id="@+id/photoLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/photo"
-        android:layout_alignLeft="@+id/photo"
-        android:layout_alignRight="@+id/photo"
-        android:layout_alignTop="@+id/photo"
-        android:indeterminateOnly="true" />
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/name"
+            android:contentDescription="@string/photoDesc" />
 
-    <TextView
-        android:id="@+id/summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/photo"
-        android:layout_toRightOf="@+id/photo"
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <ProgressBar
+            android:id="@+id/photoLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/photo"
+            android:layout_alignLeft="@+id/photo"
+            android:layout_alignRight="@+id/photo"
+            android:layout_alignTop="@+id/photo"
+            android:indeterminateOnly="true" />
 
-    <TextView
-        android:id="@+id/phoneLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/photo"
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/photo"
+            android:layout_toRightOf="@+id/photo"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/phoneLabel"
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/photo"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/seeWebsiteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emailLabel"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="@string/See_Official_Webpage"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneLabel"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/seeWebsiteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailLabel"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="@string/See_Official_Webpage"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </RelativeLayout>
 
 </RelativeLayout>
