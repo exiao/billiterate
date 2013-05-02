@@ -43,15 +43,17 @@ public class MainActivity extends FragmentActivity implements
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	private Fragment agendaFragment;
 	private Fragment trendingFragment;
-	
+	private Fragment representativeFragment;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		this.agendaFragment = new AgendaFragment();
 		this.trendingFragment = new TrendingFragment();
-		
+		this.representativeFragment = new RepresentativeActivity.AsFragment();
+
 		// Set up the action bar to show tabs.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -61,16 +63,21 @@ public class MainActivity extends FragmentActivity implements
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_section2)
 				.setTabListener(this));
-				
-				
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_section3)
+				.setTabListener(this));
+
 		// TEMPORARY for testing
-		/*Intent i = new Intent(this, RepresentativeActivity.class);
-		i.putExtra("representative", "Linda Maio");
-		startActivity(i);*/
-		
-		/*Intent i = new Intent(this, BillInfoActivity.class);
-		i.putExtra("title", "Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060");
-		startActivity(i);*/
+		/*
+		 * Intent i = new Intent(this, RepresentativeActivity.class);
+		 * i.putExtra("representative", "Linda Maio"); startActivity(i);
+		 */
+
+		/*
+		 * Intent i = new Intent(this, BillInfoActivity.class);
+		 * i.putExtra("title",
+		 * "Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060"
+		 * ); startActivity(i);
+		 */
 	}
 
 	@Override
@@ -103,11 +110,15 @@ public class MainActivity extends FragmentActivity implements
 		// container view.
 		if (tab.getPosition() == 0) {
 			getSupportFragmentManager().beginTransaction()
-				.replace(R.id.container, agendaFragment).commit();
+					.replace(R.id.container, agendaFragment).commit();
 			return;
-		} else {
+		} else if (tab.getPosition() == 1) {
 			getSupportFragmentManager().beginTransaction()
-				.replace(R.id.container, trendingFragment).commit();
+					.replace(R.id.container, trendingFragment).commit();
+			return;
+		} else if (tab.getPosition() == 2) {
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.container, representativeFragment).commit();
 			return;
 		}
 	}
@@ -129,16 +140,16 @@ public class MainActivity extends FragmentActivity implements
 		viewTag = Integer.toString(tagNum);
 		View parent = findViewById(R.id.agenda_layout);
 		View child = parent.findViewWithTag(viewTag);
-		child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+		child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE
+				: View.GONE);
 	}
-	
+
 	public void onBillClick(View view) {
 		Intent intent = new Intent(this, BillInfoActivity.class);
 		intent.putExtra("title", ((TextView) view).getText());
 		startActivity(intent);
 	}
-	
-	
+
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
@@ -152,29 +163,17 @@ public class MainActivity extends FragmentActivity implements
 
 		public DummySectionFragment() {
 		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			// Create a new TextView and set its text to the fragment's section
-			// number argument value.
-			TextView textView = new TextView(getActivity());
-			textView.setGravity(Gravity.CENTER);
-			textView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return textView;
-		}
 	}
-	
+
 	public static class AgendaFragment extends Fragment {
 		
 		ArrayList<Meeting> meetingsList = new ArrayList<Meeting>();
 		
 		public AgendaFragment() {
 		}
-		
+
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View agenda = inflater.inflate(R.layout.agenda_layout, container, false);
 			LinearLayout ll = (LinearLayout)agenda.findViewById(R.id.agenda_layout);
@@ -494,32 +493,35 @@ public class MainActivity extends FragmentActivity implements
 			
 		}
 	}
-	
+
 	public static class TrendingFragment extends Fragment {
 		public TrendingFragment() {
 		}
-		
+
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View ret = inflater.inflate(R.layout.trending_layout, container, false);
+			View ret = inflater.inflate(R.layout.trending_layout, container,
+					false);
 			LoadTrendingTask task = new LoadTrendingTask();
 			task.execute();
 			return ret;
 		}
-		
+
 		private class LoadTrendingTask extends AsyncTask<Void, Void, JSONArray> {
-			/*protected void onPreExecute() {
-				getView().findViewById(R.id.trending_progress).setVisibility(View.VISIBLE);
-			}*/
-			
-			protected JSONArray doInBackground(Void...arg0) {
+			/*
+			 * protected void onPreExecute() {
+			 * getView().findViewById(R.id.trending_progress
+			 * ).setVisibility(View.VISIBLE); }
+			 */
+
+			protected JSONArray doInBackground(Void... arg0) {
 				String url = "http://billiterate.pythonanywhere.com/trending";
 				System.err.println("URL = " + url);
 				HttpResponse response;
 				HttpClient client = new DefaultHttpClient();
 				String responseString = "";
-				
+
 				try {
 					response = client.execute(new HttpGet(url));
 					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -543,13 +545,16 @@ public class MainActivity extends FragmentActivity implements
 				}
 				return null;
 			}
-			
+
 			protected void onPostExecute(JSONArray messageList) {
-				getView().findViewById(R.id.trending_progress).setVisibility(View.GONE);
+				getView().findViewById(R.id.trending_progress).setVisibility(
+						View.GONE);
 				if (messageList == null) {
-					TextView err = ( (TextView) getView().findViewById(R.id.trending_one));
+					TextView err = ((TextView) getView().findViewById(
+							R.id.trending_one));
 					err.setText("There was an error");
 					err.setVisibility(View.VISIBLE);
+					return;
 				}
 				TextView tv = null;
 				for (int i = 0; i < messageList.length(); i++) {
@@ -557,15 +562,25 @@ public class MainActivity extends FragmentActivity implements
 					try {
 						JSONArray current = messageList.getJSONArray(i);
 						title = current.getString(0);
-					} catch (JSONException e ) {
+					} catch (JSONException e) {
 						System.err.print(messageList.toString());
 						e.printStackTrace();
 					}
-					if (i == 0) tv = (TextView) getView().findViewById(R.id.trending_one);
-					if (i == 1) tv = (TextView) getView().findViewById(R.id.trending_two);
-					if (i == 2) tv = (TextView) getView().findViewById(R.id.trending_three);
-					if (i == 3) tv = (TextView) getView().findViewById(R.id.trending_four);
-					if (i == 4) tv = (TextView) getView().findViewById(R.id.trending_five);
+					if (i == 0)
+						tv = (TextView) getView().findViewById(
+								R.id.trending_one);
+					if (i == 1)
+						tv = (TextView) getView().findViewById(
+								R.id.trending_two);
+					if (i == 2)
+						tv = (TextView) getView().findViewById(
+								R.id.trending_three);
+					if (i == 3)
+						tv = (TextView) getView().findViewById(
+								R.id.trending_four);
+					if (i == 4)
+						tv = (TextView) getView().findViewById(
+								R.id.trending_five);
 					tv.setText(title);
 					tv.setVisibility(View.VISIBLE);
 				}

@@ -47,6 +47,10 @@ public class BillInfoActivity extends Activity {
 	
 	// information for this screen
 	String bill_title;
+	String bill_summary;
+	String representative = "";
+	int billId;
+	
 	
 	// get view widgets for modification
 	LinearLayout bill_view;
@@ -63,9 +67,6 @@ public class BillInfoActivity extends Activity {
 	
 	ShapeDrawable pgDrawable;
 	
-	int billId;
-	String representative = "";
-	
 	boolean liked = false;;
 	boolean disliked = false;
 
@@ -79,6 +80,8 @@ public class BillInfoActivity extends Activity {
 		
 		Bundle extras = this.getIntent().getExtras();
 		bill_title = extras.getString("title");
+		bill_summary = extras.getString("summary");
+		representative = extras.getString("representative");
 		billId = Math.abs(bill_title.hashCode());
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
@@ -93,9 +96,10 @@ public class BillInfoActivity extends Activity {
 		
 		// display bill information
 		bill_title_textview.setText(bill_title);
+		summary.setText(bill_summary);
 		
 		//getBillSettings(bill_title);
-		setSummary(bill_title);
+		//setSummary(bill_title);
 		
 		// set progress bar colors
 		//down_ratings.getProgressDrawable().setColorFilter(Color.RED, Mode.MULTIPLY);
@@ -338,6 +342,7 @@ public class BillInfoActivity extends Activity {
 			}
 		}
 	}
+	
 	private class LoadLikesTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		protected JSONArray doInBackground(Void...arg0) {
