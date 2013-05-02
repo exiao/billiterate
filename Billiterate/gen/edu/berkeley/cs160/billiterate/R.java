@@ -37,40 +37,51 @@ public final class R {
         public static final int thumbs_up_grn=0x7f02000a;
     }
     public static final class id {
-        public static final int action_settings=0x7f090018;
-        public static final int agenda_layout=0x7f090015;
+        public static final int IDText=0x7f090019;
+        public static final int action_settings=0x7f090022;
+        public static final int agenda_layout=0x7f090016;
         public static final int bill_summary=0x7f090005;
         public static final int bill_view=0x7f090000;
         public static final int comment=0x7f090008;
+        public static final int commentText=0x7f090018;
+        public static final int comments=0x7f09000a;
         public static final int contact_rep=0x7f090007;
-        public static final int container=0x7f09000a;
+        public static final int container=0x7f09000b;
         public static final int dislike=0x7f090004;
-        public static final int divider=0x7f09000d;
-        public static final int emailLabel=0x7f090013;
+        public static final int divider=0x7f09000e;
+        public static final int emailLabel=0x7f090014;
         public static final int get_more_info=0x7f090006;
         public static final int like=0x7f090003;
-        public static final int menu_search=0x7f090017;
-        public static final int menu_settings=0x7f090016;
-        public static final int name=0x7f09000e;
-        public static final int phoneLabel=0x7f090012;
-        public static final int photo=0x7f09000f;
-        public static final int photoLoading=0x7f090010;
+        public static final int menu_search=0x7f090021;
+        public static final int menu_settings=0x7f090020;
+        public static final int name=0x7f09000f;
+        public static final int nameText=0x7f090017;
+        public static final int phoneLabel=0x7f090013;
+        public static final int photo=0x7f090010;
+        public static final int photoLoading=0x7f090011;
         public static final int post=0x7f090009;
         public static final int ratings=0x7f090002;
-        public static final int repSpinner=0x7f09000c;
-        public static final int seeWebsiteButton=0x7f090014;
-        public static final int selectLabel=0x7f09000b;
-        public static final int summary=0x7f090011;
+        public static final int repSpinner=0x7f09000d;
+        public static final int seeWebsiteButton=0x7f090015;
+        public static final int selectLabel=0x7f09000c;
+        public static final int summary=0x7f090012;
         public static final int title=0x7f090001;
+        public static final int trending_five=0x7f09001f;
+        public static final int trending_four=0x7f09001e;
+        public static final int trending_one=0x7f09001b;
+        public static final int trending_progress=0x7f09001a;
+        public static final int trending_three=0x7f09001d;
+        public static final int trending_two=0x7f09001c;
     }
     public static final class layout {
         public static final int activity_bill_info=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_representative=0x7f030002;
         public static final int agenda_layout=0x7f030003;
-        public static final int spinnerdropdownitem=0x7f030004;
-        public static final int spinneritem=0x7f030005;
-        public static final int trending_layout=0x7f030006;
+        public static final int comment_layout=0x7f030004;
+        public static final int spinnerdropdownitem=0x7f030005;
+        public static final int spinneritem=0x7f030006;
+        public static final int trending_layout=0x7f030007;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;

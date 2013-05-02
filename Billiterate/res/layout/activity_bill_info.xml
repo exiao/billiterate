@@ -26,45 +26,29 @@
 		    android:layout_height="wrap_content"
 		    android:orientation="horizontal" 
 		    android:layout_marginBottom="10dp">
-		    
+		    	    
 		    <ProgressBar 
-		        android:id="@+id/red_progress"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="2"
-		        style="@android:style/Widget.ProgressBar.Horizontal" 
-		        android:rotationY="180"/>
-		    
-		    <ProgressBar 
-		        android:id="@+id/green_progress"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="2"
-		        style="@android:style/Widget.ProgressBar.Horizontal" 
-		        android:layout_marginRight="10dp"/>
-		    <!--     
-		    <ImageView 
 		        android:id="@+id/ratings"
-		        android:layout_width="0dp"
-		        android:layout_height="50dp"
-		        android:layout_weight="6"
-		        android:layout_marginRight="10dp"
-		        android:src="@drawable/rating_bar" /> -->
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        style="@android:style/Widget.ProgressBar.Horizontal" 
+		        android:rotationY="180"
+		        android:max="100"
+		        android:layout_marginRight="10dp"/>
 		    
 		    <ImageButton
 		        android:id="@+id/like"
-		        android:layout_width="0dp"
+		        android:layout_width="30dp"
 		        android:layout_height="30dp"
-		        android:layout_weight="1"
 		        android:layout_marginRight="5dp"
 		        android:background="@drawable/thumbs_up_blk"
 		        android:onClick="likeBill" />
 		    
 		    <ImageButton
 		        android:id="@+id/dislike"
-		        android:layout_width="0dp"
+		        android:layout_width="30dp"
 		        android:layout_height="30dp"
-		        android:layout_weight="1"
 		        android:onClick="dislikeBill"
 		        android:background="@drawable/thumbs_down_blk" />
 		    
@@ -90,6 +74,7 @@
 		    android:layout_height="wrap_content"
 		    android:onClick="contact"
 		    android:text="@string/contact_rep" />
+		
 		<LinearLayout
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
@@ -120,7 +105,8 @@
 		    	android:id="@+id/comments"
 		    	android:layout_width="fill_parent"
 		    	android:layout_height="wrap_content" >
-			</ListView>	
+			</ListView>
+				
 		</LinearLayout>	
 	</LinearLayout>	
 </ScrollView>

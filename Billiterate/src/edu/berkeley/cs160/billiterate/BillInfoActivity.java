@@ -25,9 +25,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -47,15 +51,17 @@ public class BillInfoActivity extends Activity {
 	// get view widgets for modification
 	LinearLayout bill_view;
 	TextView bill_title_textview;
-	//ProgressBar	ratings;
-	ProgressBar down_ratings;
-	ProgressBar up_ratings;
+	ProgressBar	ratings;
+	//ProgressBar down_ratings;
+	//ProgressBar up_ratings;
 	int likes;
 	int dislikes;
 	ImageButton like;
 	ImageButton dislike;
 	TextView summary;
 	EditText commentBox;
+	
+	ShapeDrawable pgDrawable;
 	
 	int billId;
 	String representative = "";
@@ -77,8 +83,9 @@ public class BillInfoActivity extends Activity {
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
 		//ratings = (ProgressBar)findViewById(R.id.ratings);
-		down_ratings = (ProgressBar)findViewById(R.id.red_progress);
-		up_ratings = (ProgressBar)findViewById(R.id.green_progress);
+		//down_ratings = (ProgressBar)findViewById(R.id.red_progress);
+		//up_ratings = (ProgressBar)findViewById(R.id.green_progress);
+		ratings = (ProgressBar)findViewById(R.id.ratings);
 		like = (ImageButton)findViewById(R.id.like);
 		dislike = (ImageButton)findViewById(R.id.dislike);
 		summary = (TextView)findViewById(R.id.bill_summary);
@@ -91,8 +98,15 @@ public class BillInfoActivity extends Activity {
 		setSummary(bill_title);
 		
 		// set progress bar colors
-		down_ratings.getProgressDrawable().setColorFilter(Color.RED, Mode.MULTIPLY);
-		up_ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
+		//down_ratings.getProgressDrawable().setColorFilter(Color.RED, Mode.MULTIPLY);
+		//up_ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
+		//ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.OVERLAY);
+		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
+		//pgDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null, null));
+		pgDrawable = new ShapeDrawable();
+		pgDrawable.getPaint().setColor(Color.CYAN);
+		ClipDrawable pgBar = new ClipDrawable(pgDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ratings.setProgressDrawable(pgBar);
 		loadProgressBars();
 		
 		adapter = new SimpleAdapter(this, data, R.layout.comment_layout, 
@@ -109,11 +123,6 @@ public class BillInfoActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.bill_info, menu);
 		return true;
-	}
-	
-	public void getBillSettings(String title) {
-		// TODO
-		// get bill information and display to screen
 	}
 	
 	public void setSummary(String title) {
@@ -211,7 +220,6 @@ public class BillInfoActivity extends Activity {
 	}
 	
 	public void likeBill(View v) {
-		// TODO
 		// update ratings and increment progress bar
 		if (liked) {
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
@@ -231,7 +239,6 @@ public class BillInfoActivity extends Activity {
 	}
 	
 	public void dislikeBill(View v) {
-		// TODO
 		// update ratings and decrement progress bar
 		if (disliked) {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
@@ -264,7 +271,6 @@ public class BillInfoActivity extends Activity {
 	}
 	
 	public void contact(View v) {
-		// TODO
 		// takes user to representative's info screen
 		Intent i = new Intent(this, RepresentativeActivity.class);
 		i.putExtra("representative", representative);
@@ -312,7 +318,24 @@ public class BillInfoActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(String arg0) {
-			loadProgressBars();
+			//loadProgressBars();
+			int total = likes + dislikes;
+			System.err.println("The total is: " + total);
+			if (total > 0) {
+				int up = (likes * 100) / total;
+				ratings.setBackgroundColor(Color.RED);
+				//ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
+				pgDrawable.getPaint().setColor(Color.GREEN);
+				ratings.setProgress(up);
+				System.err.println("=============  Set ProgressBar Task  =============");
+				System.err.println("Likes: " + likes + " Dislikes: " + dislikes);
+				System.err.println("==================================================");
+			} else {
+				System.err.println("The ratings bar should be reset to zero!");
+				ratings.setBackgroundColor(Color.GRAY);
+				//pgDrawable.getPaint().setColor(Color.GRAY);
+				ratings.setProgress(0);
+			}
 		}
 	}
 	private class LoadLikesTask extends AsyncTask<Void, Void, JSONArray> {
@@ -352,22 +375,38 @@ public class BillInfoActivity extends Activity {
 			if (messageList == null) {
 				likes = 0;
 				dislikes = 0;
-			}
-			for (int i = 0; i < messageList.length(); i++) {
-				try {
-					JSONArray current = messageList.getJSONArray(i);
-					likes = Integer.parseInt(current.getString(0));
-					dislikes = Integer.parseInt(current.getString(1));
-				} catch (JSONException e ) {
-					System.err.print(messageList.toString());
-					e.printStackTrace();
+				ratings.setBackgroundColor(Color.GRAY);
+				//ratings.getBackground().setColorFilter(Color.GRAY, Mode.MULTIPLY);
+				//pgDrawable.getPaint().setColor(Color.GRAY);
+				ratings.setProgress(0);
+				System.err.println("This bill has not been liked/disliked before, should display gray bar");
+			} else {
+				for (int i = 0; i < messageList.length(); i++) {
+					try {
+						JSONArray current = messageList.getJSONArray(i);
+						likes = Integer.parseInt(current.getString(0));
+						dislikes = Integer.parseInt(current.getString(1));
+						System.out.println("Likes: " + likes + " Dislikes: " + dislikes);
+					} catch (JSONException e ) {
+						System.err.println(messageList.toString());
+						e.printStackTrace();
+					}
+				}
+				int total = likes + dislikes;
+				if (total > 0) {
+					int up = (likes * 100) / total;
+					//int down = (dislikes * 100) / total;
+					//int down = 100 - up;
+					//up_ratings.setProgress(up);
+					//down_ratings.setProgress(down);
+					ratings.setBackgroundColor(Color.RED);
+					//ratings.getBackground().setColorFilter(Color.RED, Mode.MULTIPLY);
+					//ratings.getProgressDrawable().setColorFilter(Color.CYAN, Mode.CLEAR);
+					pgDrawable.getPaint().setColor(Color.GREEN);
+					System.err.println("progress bar should be cyan and up to: " + up);
+					ratings.setProgress(up);
 				}
 			}
-			float total = likes + dislikes;
-			float up = (likes * 100) / total;
-			float down = (dislikes * 100) / total;
-			up_ratings.setProgress( (int) up);
-			down_ratings.setProgress( (int) down);
 		}
 	}
 	
@@ -422,6 +461,7 @@ public class BillInfoActivity extends Activity {
 			load(null);
 		}
 	}
+	
 	private class LoadTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		protected JSONArray doInBackground(Void...arg0) {
