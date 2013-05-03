@@ -2,7 +2,12 @@ package edu.berkeley.cs160.billiterate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -19,6 +24,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +36,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -133,17 +141,6 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	public void onAgendaClick(View view) {
-		String viewTag = (String) view.getTag();
-		int tagNum = Integer.parseInt(viewTag);
-		tagNum += 1;
-		viewTag = Integer.toString(tagNum);
-		View parent = findViewById(R.id.agenda_layout);
-		View child = parent.findViewWithTag(viewTag);
-		child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE
-				: View.GONE);
-	}
-
 	public void onBillClick(View view) {
 		Intent intent = new Intent(this, BillInfoActivity.class);
 		intent.putExtra("title", ((TextView) view).getText());
@@ -166,161 +163,146 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public static class AgendaFragment extends Fragment {
-		
+
 		ArrayList<Meeting> meetingsList = new ArrayList<Meeting>();
 		LinearLayout ll;
-		
+
 		public AgendaFragment() {
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View agenda = inflater.inflate(R.layout.agenda_layout, container, false);
-			ll = (LinearLayout)agenda.findViewById(R.id.agenda_layout);
+			View agenda = inflater.inflate(R.layout.agenda_layout, container,
+					false);
+			ll = (LinearLayout) agenda.findViewById(R.id.agenda_layout);
 			LoadAgendaTask load_agenda = new LoadAgendaTask();
 			load_agenda.execute();
 			System.err.println("executed loading agenda");
 			return agenda;
 		}
-		
+
 		public void setAgendaView(LinearLayout ll) {
+			ll.removeAllViews();
 
-			OnClickListener clickAgenda = new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					int viewTag = (Integer)v.getTag();
-					int tagNum = viewTag + 1;
-					//viewTag = Integer.toString(tagNum);
-					View parent = getView().findViewById(R.id.agenda_layout);
-					//View child = parent.findViewWithTag(viewTag);
-					View child = parent.findViewWithTag(tagNum);
-					child.setVisibility(child.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-				}
-				
-			};
 			System.err.println("somethings wrong with clickAgenda");
-			int i = 1;
 			String date = "";
-			System.err.println("There should be two meetings listed, and there is actually: " + meetingsList.size());
-			for (Meeting mt : meetingsList) {
+			System.err
+					.println("There should be two meetings listed, and there is actually: "
+							+ meetingsList.size());
+			for (final Meeting mt : meetingsList) {
 				if (!(mt.date.equals(date))) {
 					System.err.println("setting agenda there is a new date!");
 					TextView dateHeading = new TextView(this.getActivity());
-					dateHeading.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+					dateHeading.setLayoutParams(new LayoutParams(
+							LayoutParams.MATCH_PARENT,
+							LayoutParams.WRAP_CONTENT));
 					dateHeading.setPadding(10, 5, 10, 5);
 					dateHeading.setBackgroundResource(R.drawable.border);
-					//dateHeading.setBackground(this.getResources().getDrawable(R.drawable.border));
-					dateHeading.setTag(i);
+					// dateHeading.setBackground(this.getResources().getDrawable(R.drawable.border));
 					dateHeading.setText(mt.date);
 					dateHeading.setTextSize(25);
 					date = mt.date;
-					i++;
 					ll.addView(dateHeading);
 					ll.invalidate();
 					System.err.println("invalidating the view!");
 				}
-				TextView mtHeading = new TextView(this.getActivity());
-				mtHeading.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-				mtHeading.setPadding(10, 5, 10, 5);
-				mtHeading.setBackgroundResource(R.drawable.border);
-				//mtHeading.setBackground(this.getResources().getDrawable(R.drawable.border));
-				mtHeading.setTag(i);
-				mtHeading.setText(mt.type + " " + mt.time);
-				mtHeading.setTextSize(25);
-				mtHeading.setClickable(true);
-				mtHeading.setOnClickListener(clickAgenda);
-				i++;
-				ll.addView(mtHeading);
-				LinearLayout billsList = new LinearLayout(this.getActivity());
-				billsList.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-				billsList.setPadding(10, 5, 10, 5);
-				billsList.setOrientation(LinearLayout.VERTICAL);
-				billsList.setTag(i);
-				billsList.setVisibility(LinearLayout.GONE);
-				TextView loc = new TextView(this.getActivity());
-				loc.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-				loc.setPadding(20, 5, 20, 5);
-				loc.setBackgroundResource(R.drawable.border);
-				//loc.setBackground(this.getResources().getDrawable(R.drawable.border));
-				loc.setGravity(Gravity.CENTER_VERTICAL);
+
+				View agendaItem = LayoutInflater.from(getActivity()).inflate(
+						R.layout.agenda_item, ll, false);
+				final LinearLayout billsList = (LinearLayout) agendaItem
+						.findViewById(R.id.expandable);
+
+				TextView heading = (TextView) agendaItem
+						.findViewById(R.id.header);
+				heading.setText(mt.type + " " + mt.time);
+				heading.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						billsList
+								.setVisibility(billsList.getVisibility() == View.GONE ? View.VISIBLE
+										: View.GONE);
+					}
+				});
+
+				TextView loc = (TextView) agendaItem
+						.findViewById(R.id.location);
 				loc.setText(mt.location);
 				loc.setTextSize(20);
-				billsList.addView(loc);
-				LoadBillsTask load_bills = new LoadBillsTask(this.getActivity().getApplicationContext(), billsList);
+
+				Button findLocationButton = (Button) agendaItem
+						.findViewById(R.id.findLocation);
+				findLocationButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						String uri = "geo:0,0?q=" + mt.location
+								+ ", Berkeley, CA";
+						uri = uri.replace(" ", "+");
+						Intent intent = new Intent(
+								android.content.Intent.ACTION_VIEW, Uri
+										.parse(uri));
+						startActivity(intent);
+					}
+				});
+				
+				ll.addView(agendaItem);
+
+				LoadBillsTask load_bills = new LoadBillsTask(this.getActivity()
+						.getApplicationContext(), billsList);
 				load_bills.execute(mt.pk);
-				ll.addView(billsList);
-				i++;
 			}
 		}
-		
+
 		/**
-		 * Takes a string of format year-month-day and returns string
-		 * of format month day, year
+		 * Takes a string of format year-month-day and returns string of format
+		 * month day, year
+		 * 
 		 * @param date
 		 * @return
 		 */
-		public String convertDate(String date) {
-			String[] date_sections = date.split("-");
-			String day = date_sections[2];
-			String year = date_sections[0];
-			String month;
-			switch (Integer.parseInt(date_sections[1], 10)) {
-			case 1:
-				month = "January";
-				break;
-			case 2:
-				month = "February";
-				break;
-			case 3:
-				month = "March";
-				break;
-			case 4:
-				month = "April";
-				break;
-			case 5:
-				month = "May";
-				break;
-			case 6:
-				month = "June";
-				break;
-			case 7:
-				month = "July";
-				break;
-			case 8:
-				month = "August";
-				break;
-			case 9:
-				month = "September";
-				break;
-			case 10:
-				month = "October";
-				break;
-			case 11:
-				month = "November";
-				break;
-			case 12:
-				month = "December";
-				break;
-			default:
-				month = "";
+		private String convertDate(String date) {
+			SimpleDateFormat inFormat = new SimpleDateFormat(
+					"yyyy-MM-dd h:mm:ss", Locale.US);
+			Calendar calendar = new GregorianCalendar();
+			try {
+				calendar.setTime(inFormat.parse(date));
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
 			}
-			System.err.println("The month is " + month + " for the value of " + date_sections[1]);
-			return month + " " + day + ", " + year;
+
+			SimpleDateFormat outFormat = new SimpleDateFormat("MMMMM d, yyyy",
+					Locale.US);
+			return outFormat.format(calendar.getTime());
 		}
-		
+
+		private String convertTime(String date) {
+			SimpleDateFormat inFormat = new SimpleDateFormat(
+					"yyyy-MM-dd h:mm:ss", Locale.US);
+			Calendar calendar = new GregorianCalendar();
+			try {
+				calendar.setTime(inFormat.parse(date));
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
+			}
+
+			SimpleDateFormat outFormat = new SimpleDateFormat("h:mm a",
+					Locale.US);
+			return outFormat.format(calendar.getTime());
+		}
+
 		private class LoadAgendaTask extends AsyncTask<Void, Void, JSONArray> {
 
 			@Override
 			protected JSONArray doInBackground(Void... arg0) {
+				if (meetingsList.size() > 0)
+					return null;
+
 				String url = "http://billiterate.pythonanywhere.com/billapp/agendas";
 				System.err.println("URL = " + url);
 				HttpResponse response;
 				HttpClient client = new DefaultHttpClient();
 				String responseString = "";
-				
+
 				try {
 					response = client.execute(new HttpGet(url));
 					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -344,65 +326,74 @@ public class MainActivity extends FragmentActivity implements
 				}
 				return null;
 			}
-			
+
 			protected void onPostExecute(JSONArray messageList) {
-				// TODO
-				if (messageList == null) {
-					System.err.println("something went wrong with getting agendas");
-				} else {
-					for (int i = 0; i < messageList.length(); i++) {
-						int pk = 0;
-						String date = "";
-						String time = "";
-						String type = "";
-						String location = "";
-						try {
-							JSONObject current = messageList.getJSONObject(i);
-							pk = current.getInt("pk");
-							//pk = current.getInt(2);
-							//JSONArray fields = (JSONArray)current.getJSONArray(1);
-							JSONObject fields = current.getJSONObject("fields");
-							String date_time = fields.getString("date_time");
-							date = date_time.split(" ")[0];
-							date = convertDate(date);
-							time = date_time.split(" ")[1];
-							type = fields.getString("type");
-							location = fields.getString("location");
-						} catch (JSONException e) {
-							System.err.println(messageList.toString());
-							e.printStackTrace();
-						}
-						Meeting mt = new Meeting(pk, date, time, type, location);
-						System.err.println("Adding new meeting to list");
-						meetingsList.add(mt);
-						System.err.println("After adding meeting to list, there are " + meetingsList.size() + " meetings!");
-					}
-					setAgendaView(ll);
+				if (messageList == null && meetingsList.size() == 0) {
+					System.err
+							.println("Something went wrong with loading agenda");
+					return;
 				}
-				
+
+				if (messageList == null) {
+					setAgendaView(ll);
+					return;
+				}
+
+				// TODO
+				for (int i = 0; i < messageList.length(); i++) {
+					int pk = 0;
+					String date = "";
+					String time = "";
+					String type = "";
+					String location = "";
+					try {
+						JSONObject current = messageList.getJSONObject(i);
+						pk = current.getInt("pk");
+						// pk = current.getInt(2);
+						// JSONArray fields =
+						// (JSONArray)current.getJSONArray(1);
+						JSONObject fields = current.getJSONObject("fields");
+						String date_time = fields.getString("date_time");
+						date = convertDate(date_time);
+						time = convertTime(date_time);
+						type = fields.getString("type");
+						location = fields.getString("location");
+					} catch (JSONException e) {
+						System.err.println(messageList.toString());
+						e.printStackTrace();
+					}
+					Meeting mt = new Meeting(pk, date, time, type, location);
+					System.err.println("Adding new meeting to list");
+					meetingsList.add(mt);
+					System.err
+							.println("After adding meeting to list, there are "
+									+ meetingsList.size() + " meetings!");
+				}
+				setAgendaView(ll);
+
 			}
-			
+
 		}
-		
+
 		private class LoadBillsTask extends AsyncTask<Integer, Void, JSONArray> {
-			
+
 			Context context;
 			LinearLayout bills_layout;
 
-			
 			public LoadBillsTask(Context context, LinearLayout ll) {
 				this.context = context;
 				this.bills_layout = ll;
 			}
-			
+
 			private class BillClickListener implements OnClickListener {
-				
+
 				Context context;
 				String title;
 				String summary;
 				String rep;
-				
-				public BillClickListener(Context context, String title, String summary, String rep) {
+
+				public BillClickListener(Context context, String title,
+						String summary, String rep) {
 					this.context = context;
 					this.title = title;
 					this.summary = summary;
@@ -418,18 +409,19 @@ public class MainActivity extends FragmentActivity implements
 					i.putExtra("representative", this.rep);
 					startActivity(i);
 				}
-				
+
 			}
 
 			@Override
 			protected JSONArray doInBackground(Integer... params) {
 				// TODO Auto-generated method stub
-				String url = "http://billiterate.pythonanywhere.com/billapp/agenda_bills?id=" + params[0];
+				String url = "http://billiterate.pythonanywhere.com/billapp/agenda_bills?id="
+						+ params[0];
 				System.err.println("URL = " + url);
 				HttpResponse response;
 				HttpClient client = new DefaultHttpClient();
 				String responseString = "";
-				
+
 				try {
 					response = client.execute(new HttpGet(url));
 					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -453,45 +445,51 @@ public class MainActivity extends FragmentActivity implements
 				}
 				return null;
 			}
-			
+
 			protected void onPostExecute(JSONArray messageList) {
 				// TODO
 				if (messageList == null) {
-					System.err.println("something went wrong with getting the bills");
-				} else {
-					for (int i = 0; i < messageList.length(); i++) {
-						String title = "";
-						String summary = "";
-						String representative = "";
-						try {
-							JSONObject current = messageList.getJSONObject(i);
-							JSONObject fields = current.getJSONObject("fields");
-							title = fields.getString("title");
-							summary = fields.getString("summary");
-							representative = fields.getString("representative");
-						} catch (JSONException e) {
-							System.err.print(messageList.toString());
-							e.printStackTrace();
-						}
-						TextView bill = new TextView(this.context);
-						bill.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-						bill.setPadding(20, 5, 20, 5);
-						bill.setBackgroundResource(R.drawable.border);
-						//bill.setBackground(this.context.getResources().getDrawable(R.drawable.border));
-						bill.setGravity(Gravity.CENTER_VERTICAL);
-						bill.setText(title);
-						bill.setTextSize(18);
-						bill.setClickable(true);
-						bill.setOnClickListener(new BillClickListener(this.context, title, summary, representative));
-						bills_layout.addView(bill);
-						View bar = new View(this.context);
-						bar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 1));
-						bar.setBackgroundColor(Color.DKGRAY);
-						bills_layout.addView(bar);
+					System.err
+							.println("something went wrong with getting the bills");
+					return;
+				}
+
+				for (int i = 0; i < messageList.length(); i++) {
+					String title = "";
+					String summary = "";
+					String representative = "";
+					try {
+						JSONObject current = messageList.getJSONObject(i);
+						JSONObject fields = current.getJSONObject("fields");
+						title = fields.getString("title");
+						summary = fields.getString("summary");
+						representative = fields.getString("representative");
+					} catch (JSONException e) {
+						System.err.print(messageList.toString());
+						e.printStackTrace();
 					}
+					TextView bill = new TextView(this.context);
+					bill.setLayoutParams(new LayoutParams(
+							LayoutParams.MATCH_PARENT,
+							LayoutParams.WRAP_CONTENT));
+					bill.setPadding(20, 5, 20, 5);
+					bill.setBackgroundResource(R.drawable.border);
+					// bill.setBackground(this.context.getResources().getDrawable(R.drawable.border));
+					bill.setGravity(Gravity.CENTER_VERTICAL);
+					bill.setText(title);
+					bill.setTextSize(18);
+					bill.setClickable(true);
+					bill.setOnClickListener(new BillClickListener(this.context,
+							title, summary, representative));
+					bills_layout.addView(bill);
+					View bar = new View(this.context);
+					bar.setLayoutParams(new LayoutParams(
+							LayoutParams.MATCH_PARENT, 1));
+					bar.setBackgroundColor(Color.DKGRAY);
+					bills_layout.addView(bar);
 				}
 			}
-			
+
 		}
 	}
 

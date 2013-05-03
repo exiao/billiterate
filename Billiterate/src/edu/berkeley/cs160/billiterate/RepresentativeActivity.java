@@ -3,8 +3,6 @@ package edu.berkeley.cs160.billiterate;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,7 +15,6 @@ import android.telephony.PhoneNumberUtils;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
