@@ -517,7 +517,7 @@ public class MainActivity extends FragmentActivity implements
 			 */
 
 			protected JSONArray doInBackground(Void... arg0) {
-				String url = "http://billiterate.pythonanywhere.com/trending";
+				String url = "http://billiterate.pythonanywhere.com/billapp/trending";
 				System.err.println("URL = " + url);
 				HttpResponse response;
 				HttpClient client = new DefaultHttpClient();
@@ -558,11 +558,12 @@ public class MainActivity extends FragmentActivity implements
 					return;
 				}
 				TextView tv = null;
-				for (int i = 0; i < messageList.length(); i++) {
+				for (int i = 0; i < messageList.length() && i < 5; i++) {
 					String title = "";
 					try {
-						JSONArray current = messageList.getJSONArray(i);
-						title = current.getString(0);
+						JSONObject current = messageList.getJSONObject(i);
+						JSONObject fields = current.getJSONObject("fields");
+						title = fields.getString("title");
 					} catch (JSONException e) {
 						System.err.print(messageList.toString());
 						e.printStackTrace();
