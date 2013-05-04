@@ -178,32 +178,30 @@ public class MainActivity extends FragmentActivity implements
 			ll = (LinearLayout) agenda.findViewById(R.id.agenda_layout);
 			LoadAgendaTask load_agenda = new LoadAgendaTask();
 			load_agenda.execute();
-			System.err.println("executed loading agenda");
+			System.out.println("executed loading agenda");
 			return agenda;
 		}
 
 		public void setAgendaView(LinearLayout ll) {
 			ll.removeAllViews();
 
-			System.err.println("somethings wrong with clickAgenda");
 			String date = "";
-			System.err.println("There should be two meetings listed, and there is actually: "
+			System.out.println("There should be two meetings listed, and there is actually: "
 							+ meetingsList.size());
 			for (final Meeting mt : meetingsList) {
 				if (!(mt.date.equals(date))) {
-					System.err.println("setting agenda there is a new date!");
+					System.out.println("setting agenda there is a new date!");
 					TextView dateHeading = new TextView(this.getActivity());
 					dateHeading.setLayoutParams(new LayoutParams(
 							LayoutParams.MATCH_PARENT,
 							LayoutParams.WRAP_CONTENT));
-					dateHeading.setPadding(10, 5, 10, 5);
+					dateHeading.setPadding(10, 10, 10, 10);
+					dateHeading.setGravity(Gravity.CENTER);
 					dateHeading.setBackgroundResource(R.drawable.border);
 					dateHeading.setText(mt.date);
 					dateHeading.setTextSize(25);
 					date = mt.date;
 					ll.addView(dateHeading);
-					//ll.invalidate();
-					System.err.println("invalidating the view!");
 				}
 
 				View agendaItem = LayoutInflater.from(getActivity()).inflate(
@@ -458,7 +456,7 @@ public class MainActivity extends FragmentActivity implements
 					bill.setLayoutParams(new LayoutParams(
 							LayoutParams.MATCH_PARENT,
 							LayoutParams.WRAP_CONTENT));
-					bill.setPadding(20, 5, 20, 5);
+					bill.setPadding(20, 10, 20, 10);
 					bill.setBackgroundResource(R.drawable.border);
 					bill.setGravity(Gravity.CENTER_VERTICAL);
 					bill.setText(title);
