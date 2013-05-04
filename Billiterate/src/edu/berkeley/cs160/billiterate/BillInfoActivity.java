@@ -1,11 +1,7 @@
 package edu.berkeley.cs160.billiterate;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,7 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
@@ -33,17 +31,14 @@ import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.*;
 
 public class BillInfoActivity extends Activity {
 
@@ -71,9 +66,6 @@ public class BillInfoActivity extends Activity {
 	boolean liked = false;;
 	boolean disliked = false;
 
-	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-	SimpleAdapter adapter;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,6 +85,15 @@ public class BillInfoActivity extends Activity {
 		summary = (TextView) findViewById(R.id.bill_summary);
 		commentBox = (EditText) findViewById(R.id.comment);
 
+		commentBox.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				commentClick();
+			}
+
+		});
+
 		// display bill information
 		bill_title_textview.setText(bill_title);
 		summary.setText(bill_summary);
@@ -103,12 +104,6 @@ public class BillInfoActivity extends Activity {
 				ClipDrawable.HORIZONTAL);
 		ratings.setProgressDrawable(pgBar);
 		loadProgressBars();
-
-		adapter = new SimpleAdapter(this, data, R.layout.comment_layout,
-				new String[] { "Name", "Comment", "ID" }, new int[] {
-						R.id.nameText, R.id.commentText, R.id.IDText });
-		ListView comments = (ListView) findViewById(R.id.comments);
-		comments.setAdapter(adapter);
 
 		load(null);
 	}
@@ -240,6 +235,47 @@ public class BillInfoActivity extends Activity {
 		LoadLikesTask task = new LoadLikesTask();
 		task.execute();
 		System.err.println("Finished loading progress bars");
+	}
+
+	private void commentClick() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Post a Comment");
+
+		final EditText commentTextBox = new EditText(this);
+		builder.setView(commentTextBox);
+
+		// Set up the buttons
+		builder.setPositiveButton("Post",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String commentText = commentTextBox.getText()
+								.toString();
+						// Will eventually be populated by Facebook login
+						String name = "Anonymous";
+						PostTask post = new PostTask();
+						post.execute(Integer.toString(billId), name,
+								commentText);
+						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(
+								commentTextBox.getWindowToken(), 0);
+						imm.hideSoftInputFromWindow(
+								commentBox.getWindowToken(), 0);
+					}
+				});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(
+								commentTextBox.getWindowToken(), 0);
+						imm.hideSoftInputFromWindow(
+								commentBox.getWindowToken(), 0);
+					}
+				});
+
+		builder.show();
 	}
 
 	private class UpdateRatingsTask extends AsyncTask<JSONObject, Void, Void> {
@@ -462,29 +498,37 @@ public class BillInfoActivity extends Activity {
 		}
 
 		protected void onPostExecute(JSONArray messageList) {
-			data.clear();
 			if (messageList == null) {
 				return;
 			}
-			for (int i = 0; i < messageList.length(); i++) {
+			LinearLayout comments = (LinearLayout) findViewById(R.id.comments);
+			comments.removeAllViews();
+			for (int i = messageList.length() - 1; i >= 0; i--) {
 				try {
 					JSONObject current = messageList.getJSONObject(i);
 					JSONObject fields = current.getJSONObject("fields");
-					Map<String, String> listItem = new HashMap<String, String>(
-							2);
-					listItem.put("ID", current.getString("pk"));
-					listItem.put("Name", fields.getString("name"));
-					listItem.put("Comment", fields.getString("text"));
-					data.add(listItem);
+
 					System.err.println("ID = " + current.getString("pk")
 							+ "\nName = " + fields.getString("name")
 							+ "\nText = " + fields.getString("text"));
+
+					View commentView = LayoutInflater.from(
+							BillInfoActivity.this).inflate(
+							R.layout.comment_layout, comments, false);
+					TextView nameText = (TextView) commentView
+							.findViewById(R.id.nameText);
+					TextView commentText = (TextView) commentView
+							.findViewById(R.id.commentText);
+					TextView idText = (TextView) commentView
+							.findViewById(R.id.IDText);
+					nameText.setText(fields.getString("name"));
+					commentText.setText(fields.getString("text"));
+					idText.setText(current.getString("pk"));
+					comments.addView(commentView);
 				} catch (JSONException e) {
-					System.err.print(data.toString());
 					e.printStackTrace();
 				}
 			}
-			adapter.notifyDataSetChanged();
 		}
 	}
 }
