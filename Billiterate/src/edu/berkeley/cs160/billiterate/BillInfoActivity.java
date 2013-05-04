@@ -222,7 +222,6 @@ public class BillInfoActivity extends Activity {
 			if (total > 0) {
 				int up = (likes * 100) / total;
 				ratings.setBackgroundColor(Color.RED);
-				//ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
 				pgDrawable.getPaint().setColor(Color.GREEN);
 				ratings.setProgress(up);
 				System.err.println("=============  Set ProgressBar Task  =============");
@@ -231,7 +230,6 @@ public class BillInfoActivity extends Activity {
 			} else {
 				System.err.println("The ratings bar should be reset to zero!");
 				ratings.setBackgroundColor(Color.GRAY);
-				//pgDrawable.getPaint().setColor(Color.GRAY);
 				ratings.setProgress(0);
 			}
 		}

@@ -22,7 +22,6 @@
         	android:background="@drawable/border"
         	android:padding="3sp"
         	android:clickable="true"
-        	android:onClick="onBillClick"
         	android:visibility="gone"/>
         	
     	<TextView
@@ -33,7 +32,6 @@
         	android:background="@drawable/border"
         	android:padding="3sp" 
         	android:clickable="true"
-        	android:onClick="onBillClick"
         	android:visibility="gone"/>
         
     	<TextView
@@ -44,7 +42,6 @@
         	android:background="@drawable/border"
         	android:padding="3sp" 
         	android:clickable="true"
-        	android:onClick="onBillClick"
         	android:visibility="gone"/>
     	
     	<TextView
@@ -55,7 +52,6 @@
         	android:background="@drawable/border"
         	android:padding="3sp"
         	android:clickable="true"
-        	android:onClick="onBillClick" 
         	android:visibility="gone"/>
     	
     	<TextView
@@ -66,7 +62,6 @@
         	android:background="@drawable/border"
         	android:padding="3sp"
         	android:clickable="true"
-        	android:onClick="onBillClick" 
         	android:visibility="gone"/>		
         	</LinearLayout>
 </ScrollView>

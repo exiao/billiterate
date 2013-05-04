@@ -141,11 +141,11 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	public void onBillClick(View view) {
+	/*public void onBillClick(View view) {
 		Intent intent = new Intent(this, BillInfoActivity.class);
 		intent.putExtra("title", ((TextView) view).getText());
 		startActivity(intent);
-	}
+	}*/
 
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
@@ -359,6 +359,35 @@ public class MainActivity extends FragmentActivity implements
 			}
 
 		}
+		
+		private class BillClickListener implements OnClickListener {
+
+			Context context;
+			String title;
+			String summary;
+			String rep;
+			int id;
+
+			public BillClickListener(Context context, String title,
+					String summary, String rep, int id) {
+				this.context = context;
+				this.title = title;
+				this.summary = summary;
+				this.rep = rep;
+				this.id = id;
+			}
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(this.context, BillInfoActivity.class);
+				i.putExtra("title", this.title);
+				i.putExtra("summary", this.summary);
+				i.putExtra("representative", this.rep);
+				i.putExtra("id", this.id);
+				startActivity(i);
+			}
+
+		}
 
 		private class LoadBillsTask extends AsyncTask<Integer, Void, JSONArray> {
 
@@ -368,36 +397,6 @@ public class MainActivity extends FragmentActivity implements
 			public LoadBillsTask(Context context, LinearLayout ll) {
 				this.context = context;
 				this.bills_layout = ll;
-			}
-
-			private class BillClickListener implements OnClickListener {
-
-				Context context;
-				String title;
-				String summary;
-				String rep;
-				int id;
-
-				public BillClickListener(Context context, String title,
-						String summary, String rep, int id) {
-					this.context = context;
-					this.title = title;
-					this.summary = summary;
-					this.rep = rep;
-					this.id = id;
-				}
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent i = new Intent(this.context, BillInfoActivity.class);
-					i.putExtra("title", this.title);
-					i.putExtra("summary", this.summary);
-					i.putExtra("representative", this.rep);
-					i.putExtra("id", this.id);
-					startActivity(i);
-				}
-
 			}
 
 			@Override
@@ -487,9 +486,39 @@ public class MainActivity extends FragmentActivity implements
 				Bundle savedInstanceState) {
 			View ret = inflater.inflate(R.layout.trending_layout, container,
 					false);
-			LoadTrendingTask task = new LoadTrendingTask();
+			LoadTrendingTask task = new LoadTrendingTask(this.getActivity()
+					.getApplicationContext());
 			task.execute();
 			return ret;
+		}
+		
+		private class BillClickListener implements OnClickListener {
+
+			Context context;
+			String title;
+			String summary;
+			String rep;
+			int id;
+
+			public BillClickListener(Context context, String title,
+					String summary, String rep, int id) {
+				this.context = context;
+				this.title = title;
+				this.summary = summary;
+				this.rep = rep;
+				this.id = id;
+			}
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(this.context, BillInfoActivity.class);
+				i.putExtra("title", this.title);
+				i.putExtra("summary", this.summary);
+				i.putExtra("representative", this.rep);
+				i.putExtra("id", this.id);
+				startActivity(i);
+			}
+
 		}
 
 		private class LoadTrendingTask extends AsyncTask<Void, Void, JSONArray> {
@@ -498,6 +527,11 @@ public class MainActivity extends FragmentActivity implements
 			 * getView().findViewById(R.id.trending_progress
 			 * ).setVisibility(View.VISIBLE); }
 			 */
+			Context context;
+			
+			public LoadTrendingTask(Context context) {
+				this.context = context;
+			}
 
 			protected JSONArray doInBackground(Void... arg0) {
 				String url = "http://billiterate.pythonanywhere.com/billapp/trending";
@@ -543,10 +577,16 @@ public class MainActivity extends FragmentActivity implements
 				TextView tv = null;
 				for (int i = 0; i < messageList.length() && i < 5; i++) {
 					String title = "";
+					String summary = "";
+					String rep = "";
+					int id = 0;
 					try {
 						JSONObject current = messageList.getJSONObject(i);
+						id = current.getInt("pk");
 						JSONObject fields = current.getJSONObject("fields");
 						title = fields.getString("title");
+						summary = fields.getString("summary");
+						rep = fields.getString("representative");
 					} catch (JSONException e) {
 						System.err.print(messageList.toString());
 						e.printStackTrace();
@@ -567,6 +607,8 @@ public class MainActivity extends FragmentActivity implements
 						tv = (TextView) getView().findViewById(
 								R.id.trending_five);
 					tv.setText(title);
+					tv.setPadding(10, 10, 10, 10);
+					tv.setOnClickListener(new BillClickListener(this.context, title, summary, rep, id));
 					tv.setVisibility(View.VISIBLE);
 				}
 			}
