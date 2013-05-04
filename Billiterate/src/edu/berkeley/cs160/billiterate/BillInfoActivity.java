@@ -250,7 +250,9 @@ public class BillInfoActivity extends Activity {
 				HttpPost post = new HttpPost(url);
 				StringEntity update = new StringEntity(params[0].toString());
 				post.setEntity(update);
-				System.out.println("Posting" + update + "to" + url);
+				post.setHeader("Accept", "application/json");
+				post.setHeader("Content-type", "application/json");
+				System.out.println("Posting " + params[0].toString() + " to " + url);
 				client.execute(post);
 			} catch (ClientProtocolException cpe) {
 				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
