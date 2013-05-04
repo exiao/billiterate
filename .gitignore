@@ -9,3 +9,4 @@ gen/
 #class files
 *.class
 R.java
+BuildConfig.java
