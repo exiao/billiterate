@@ -187,8 +187,7 @@ public class MainActivity extends FragmentActivity implements
 
 			System.err.println("somethings wrong with clickAgenda");
 			String date = "";
-			System.err
-					.println("There should be two meetings listed, and there is actually: "
+			System.err.println("There should be two meetings listed, and there is actually: "
 							+ meetingsList.size());
 			for (final Meeting mt : meetingsList) {
 				if (!(mt.date.equals(date))) {
@@ -199,48 +198,40 @@ public class MainActivity extends FragmentActivity implements
 							LayoutParams.WRAP_CONTENT));
 					dateHeading.setPadding(10, 5, 10, 5);
 					dateHeading.setBackgroundResource(R.drawable.border);
-					// dateHeading.setBackground(this.getResources().getDrawable(R.drawable.border));
 					dateHeading.setText(mt.date);
 					dateHeading.setTextSize(25);
 					date = mt.date;
 					ll.addView(dateHeading);
-					ll.invalidate();
+					//ll.invalidate();
 					System.err.println("invalidating the view!");
 				}
 
 				View agendaItem = LayoutInflater.from(getActivity()).inflate(
 						R.layout.agenda_item, ll, false);
-				final LinearLayout billsList = (LinearLayout) agendaItem
-						.findViewById(R.id.expandable);
+				final LinearLayout billsList = (LinearLayout) agendaItem.findViewById(R.id.expandable);
 
-				TextView heading = (TextView) agendaItem
-						.findViewById(R.id.header);
+				TextView heading = (TextView) agendaItem.findViewById(R.id.header);
 				heading.setText(mt.type + " " + mt.time);
 				heading.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						billsList
-								.setVisibility(billsList.getVisibility() == View.GONE ? View.VISIBLE
-										: View.GONE);
+						billsList.setVisibility(billsList.getVisibility() == View.GONE ? 
+								View.VISIBLE : View.GONE);
 					}
 				});
 
-				TextView loc = (TextView) agendaItem
-						.findViewById(R.id.location);
+				TextView loc = (TextView) agendaItem.findViewById(R.id.location);
 				loc.setText(mt.location);
 				loc.setTextSize(20);
 
-				Button findLocationButton = (Button) agendaItem
-						.findViewById(R.id.findLocation);
+				Button findLocationButton = (Button) agendaItem.findViewById(R.id.findLocation);
 				findLocationButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						String uri = "geo:0,0?q=" + mt.location
-								+ ", Berkeley, CA";
+						String uri = "geo:0,0?q=" + mt.location + ", Berkeley, CA";
 						uri = uri.replace(" ", "+");
 						Intent intent = new Intent(
-								android.content.Intent.ACTION_VIEW, Uri
-										.parse(uri));
+								android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 						startActivity(intent);
 					}
 				});
@@ -329,8 +320,7 @@ public class MainActivity extends FragmentActivity implements
 
 			protected void onPostExecute(JSONArray messageList) {
 				if (messageList == null && meetingsList.size() == 0) {
-					System.err
-							.println("Something went wrong with loading agenda");
+					System.err.println("Something went wrong with loading agenda");
 					return;
 				}
 
@@ -339,7 +329,6 @@ public class MainActivity extends FragmentActivity implements
 					return;
 				}
 
-				// TODO
 				for (int i = 0; i < messageList.length(); i++) {
 					int pk = 0;
 					String date = "";
@@ -349,9 +338,6 @@ public class MainActivity extends FragmentActivity implements
 					try {
 						JSONObject current = messageList.getJSONObject(i);
 						pk = current.getInt("pk");
-						// pk = current.getInt(2);
-						// JSONArray fields =
-						// (JSONArray)current.getJSONArray(1);
 						JSONObject fields = current.getJSONObject("fields");
 						String date_time = fields.getString("date_time");
 						date = convertDate(date_time);
@@ -365,8 +351,7 @@ public class MainActivity extends FragmentActivity implements
 					Meeting mt = new Meeting(pk, date, time, type, location);
 					System.err.println("Adding new meeting to list");
 					meetingsList.add(mt);
-					System.err
-							.println("After adding meeting to list, there are "
+					System.err.println("After adding meeting to list, there are "
 									+ meetingsList.size() + " meetings!");
 				}
 				setAgendaView(ll);
@@ -391,13 +376,15 @@ public class MainActivity extends FragmentActivity implements
 				String title;
 				String summary;
 				String rep;
+				int id;
 
 				public BillClickListener(Context context, String title,
-						String summary, String rep) {
+						String summary, String rep, int id) {
 					this.context = context;
 					this.title = title;
 					this.summary = summary;
 					this.rep = rep;
+					this.id = id;
 				}
 
 				@Override
@@ -407,6 +394,7 @@ public class MainActivity extends FragmentActivity implements
 					i.putExtra("title", this.title);
 					i.putExtra("summary", this.summary);
 					i.putExtra("representative", this.rep);
+					i.putExtra("id", this.id);
 					startActivity(i);
 				}
 
@@ -414,7 +402,6 @@ public class MainActivity extends FragmentActivity implements
 
 			@Override
 			protected JSONArray doInBackground(Integer... params) {
-				// TODO Auto-generated method stub
 				String url = "http://billiterate.pythonanywhere.com/billapp/agenda_bills?id="
 						+ params[0];
 				System.err.println("URL = " + url);
@@ -447,10 +434,8 @@ public class MainActivity extends FragmentActivity implements
 			}
 
 			protected void onPostExecute(JSONArray messageList) {
-				// TODO
 				if (messageList == null) {
-					System.err
-							.println("something went wrong with getting the bills");
+					System.err.println("something went wrong with getting the bills");
 					return;
 				}
 
@@ -458,8 +443,10 @@ public class MainActivity extends FragmentActivity implements
 					String title = "";
 					String summary = "";
 					String representative = "";
+					int id = 0;
 					try {
 						JSONObject current = messageList.getJSONObject(i);
+						id = current.getInt("pk");
 						JSONObject fields = current.getJSONObject("fields");
 						title = fields.getString("title");
 						summary = fields.getString("summary");
@@ -474,13 +461,11 @@ public class MainActivity extends FragmentActivity implements
 							LayoutParams.WRAP_CONTENT));
 					bill.setPadding(20, 5, 20, 5);
 					bill.setBackgroundResource(R.drawable.border);
-					// bill.setBackground(this.context.getResources().getDrawable(R.drawable.border));
 					bill.setGravity(Gravity.CENTER_VERTICAL);
 					bill.setText(title);
 					bill.setTextSize(18);
 					bill.setClickable(true);
-					bill.setOnClickListener(new BillClickListener(this.context,
-							title, summary, representative));
+					bill.setOnClickListener(new BillClickListener(this.context, title, summary, representative, id));
 					bills_layout.addView(bill);
 					View bar = new View(this.context);
 					bar.setLayoutParams(new LayoutParams(

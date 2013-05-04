@@ -19,15 +19,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,12 +81,10 @@ public class BillInfoActivity extends Activity {
 		bill_title = extras.getString("title");
 		bill_summary = extras.getString("summary");
 		representative = extras.getString("representative");
-		billId = Math.abs(bill_title.hashCode());
+		billId = extras.getInt("id");
+		
 		bill_view = (LinearLayout)findViewById(R.id.bill_view);
 		bill_title_textview = (TextView)findViewById(R.id.title);
-		//ratings = (ProgressBar)findViewById(R.id.ratings);
-		//down_ratings = (ProgressBar)findViewById(R.id.red_progress);
-		//up_ratings = (ProgressBar)findViewById(R.id.green_progress);
 		ratings = (ProgressBar)findViewById(R.id.ratings);
 		like = (ImageButton)findViewById(R.id.like);
 		dislike = (ImageButton)findViewById(R.id.dislike);
@@ -98,15 +95,6 @@ public class BillInfoActivity extends Activity {
 		bill_title_textview.setText(bill_title);
 		summary.setText(bill_summary);
 		
-		//getBillSettings(bill_title);
-		//setSummary(bill_title);
-		
-		// set progress bar colors
-		//down_ratings.getProgressDrawable().setColorFilter(Color.RED, Mode.MULTIPLY);
-		//up_ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.MULTIPLY);
-		//ratings.getProgressDrawable().setColorFilter(Color.GREEN, Mode.OVERLAY);
-		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
-		//pgDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null, null));
 		pgDrawable = new ShapeDrawable();
 		pgDrawable.getPaint().setColor(Color.CYAN);
 		ClipDrawable pgBar = new ClipDrawable(pgDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
@@ -127,100 +115,6 @@ public class BillInfoActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.bill_info, menu);
 		return true;
-	}
-	
-	public void setSummary(String title) {
-		if (title.equals("Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060")) {
-			summary.setText(R.string.late_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Amending BMC Chapter 9.32 Massage Ordinance: Exempting Chair Massage")) {
-			summary.setText(R.string.massage_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled for Possible Issuance After " +
-				"Council Approval on April 2, 2013")) {
-			summary.setText(R.string.bid_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Contract No. 7722D Amendment: Milliman, Inc. for Actuarial Services")) {
-			summary.setText(R.string.milliman_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled for " +
-				"Possible Issuance After Council Approval on March 19, 2013")) {
-			summary.setText(R.string.solicit_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Revenue Contract: County of Alameda for Shelter Plus Care Program")) {
-			summary.setText(R.string.shelter_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Classification: Assistant Human Resources Analyst")) {
-			summary.setText(R.string.ahra_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Lease: Women's Daytime Drop-In Center at 2218 Acton Street")) {
-			summary.setText(R.string.womens_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Lease Amendment: International Computer Science Institute at 1947 Center Street")) {
-			summary.setText(R.string.csi_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("City Council Rules of Procedure and Order")) {
-			summary.setText(R.string.rules_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled For Possible Issuance After " +
-				"Council Approval on March 5, 2013")) {
-			summary.setText(R.string.insure_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Cleanup Amendment to Taxi Ordinance (BMC Chapter 9.52)")) {
-			summary.setText(R.string.taxi_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Enact Chapter 13.79, Automatically Renewing Leases")) {
-			summary.setText(R.string.renew_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Option Agreement - 3135 Harper Street")) {
-			summary.setText(R.string.harper_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Appointment of City Clerk")) {
-			summary.setText(R.string.clerk_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled For Possible Issuance After " +
-				"Council Approval on February 5, 2013")) {
-			summary.setText(R.string.feb_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Option Agreement - 3135 Harper Street (Revised)")) {
-			summary.setText(R.string.harper_rev_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Contract: ACS State and Local Solutions for a Parking Citation Management Solution")) {
-			summary.setText(R.string.acs_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Contract: AJW Construction for FY 2013 Responsive Sidewalk Project Phase 1")) {
-			summary.setText(R.string.ajw_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Cleanup Amendment to Taxi Ordinance (BMC Chapter 9.52)")) {
-			summary.setText(R.string.cleanup_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Enact Chapter 13.79, Automatically Renewing Leases")) {
-			summary.setText(R.string.enact_s);
-			representative = "Maxwell Andersom";
-		} else if (title.equals("Contract No. 8460A Amendment: NextGen Healthcare Information " +
-				"Systems Inc. for an Electronic Records System and Related Services")) {
-			summary.setText(R.string.nextgen_s);
-			representative = "Linda Maio";
-		} else if (title.equals("Amending Waste Management Authority Joint Powers Agreement")) {
-			summary.setText(R.string.waste_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Fee Assessment - State of California Self-Insurance Fund (Workers' Compensation Program)")) {
-			summary.setText(R.string.fee_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Designate the Line of Succession for the Director of Emergency Services")) {
-			summary.setText(R.string.line_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Donation of Furniture for the Dona Spring Animal Shelter by Crate and Barrel")) {
-			summary.setText(R.string.dana_s);
-			representative = "Maxwell Anderson";
-		} else if (title.equals("Formal Bid Solicitation and Request for Proposal Scheduled For Possible Issuance After" +
-				" Council Approval on January 22, 2013")) {
-			summary.setText(R.string.jan_s);
-			representative = "Darryl Moore";
-		} else if (title.equals("Compassionate Sidewalks Background Information")) {
-			summary.setText(R.string.side_s);
-			representative = "Linda Maio";
-		}
 	}
 	
 	public void likeBill(View v) {
@@ -346,7 +240,7 @@ public class BillInfoActivity extends Activity {
 	private class LoadLikesTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		protected JSONArray doInBackground(Void...arg0) {
-			String url = "http://billiterate.pythonanywhere.com/likes/" + Integer.toString(billId);
+			String url = "http://billiterate.pythonanywhere.com/billapp/bills?id=" + billId;
 			System.err.println("URL = " + url);
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
@@ -381,16 +275,15 @@ public class BillInfoActivity extends Activity {
 				likes = 0;
 				dislikes = 0;
 				ratings.setBackgroundColor(Color.GRAY);
-				//ratings.getBackground().setColorFilter(Color.GRAY, Mode.MULTIPLY);
-				//pgDrawable.getPaint().setColor(Color.GRAY);
 				ratings.setProgress(0);
 				System.err.println("This bill has not been liked/disliked before, should display gray bar");
 			} else {
 				for (int i = 0; i < messageList.length(); i++) {
 					try {
-						JSONArray current = messageList.getJSONArray(i);
-						likes = Integer.parseInt(current.getString(0));
-						dislikes = Integer.parseInt(current.getString(1));
+						JSONObject current = messageList.getJSONObject(i);
+						JSONObject fields = current.getJSONObject("fields");
+						likes = fields.getInt("num_likes");
+						dislikes = fields.getInt("num_dislikes");
 						System.out.println("Likes: " + likes + " Dislikes: " + dislikes);
 					} catch (JSONException e ) {
 						System.err.println(messageList.toString());
@@ -400,15 +293,9 @@ public class BillInfoActivity extends Activity {
 				int total = likes + dislikes;
 				if (total > 0) {
 					int up = (likes * 100) / total;
-					//int down = (dislikes * 100) / total;
-					//int down = 100 - up;
-					//up_ratings.setProgress(up);
-					//down_ratings.setProgress(down);
 					ratings.setBackgroundColor(Color.RED);
-					//ratings.getBackground().setColorFilter(Color.RED, Mode.MULTIPLY);
-					//ratings.getProgressDrawable().setColorFilter(Color.CYAN, Mode.CLEAR);
 					pgDrawable.getPaint().setColor(Color.GREEN);
-					System.err.println("progress bar should be cyan and up to: " + up);
+					System.err.println("progress bar should be green and up to: " + up);
 					ratings.setProgress(up);
 				}
 			}
