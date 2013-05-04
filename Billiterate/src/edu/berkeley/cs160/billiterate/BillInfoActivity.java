@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -18,6 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -372,19 +374,22 @@ public class BillInfoActivity extends Activity {
 	private class PostTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String...params) {
-			String url = "http://billiterate.pythonanywhere.com/messages/" + Integer.toString(billId);
+			String url = "http://billiterate.pythonanywhere.com/billapp/comments";
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			try {
 				HttpPost post = new HttpPost(url);
 				List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-				postParameters.add(new BasicNameValuePair("bill", params[0]));
+				postParameters.add(new BasicNameValuePair("id", params[0]));
 				postParameters.add(new BasicNameValuePair("name", params[1]));
 				postParameters.add(new BasicNameValuePair("comment", params[2]));
 				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParameters);
 				post.setEntity(entity);
 				response = client.execute(post);
-				System.err.println("Posting " + postParameters.toString() + "to " + url);
+				System.err.println("Posting " + postParameters.toString() + " to " + url);
+				HttpEntity resp = response.getEntity();
+				String respStr = EntityUtils.toString(resp);
+				System.err.println("Response = " + respStr);
 			} catch (ClientProtocolException cpe) {
 				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				cpe.printStackTrace();
@@ -404,8 +409,8 @@ public class BillInfoActivity extends Activity {
 	private class LoadTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		protected JSONArray doInBackground(Void...arg0) {
-			String url = "http://billiterate.pythonanywhere.com/messages/" + Integer.toString(billId);
-			System.err.println("URL = " + url);
+			String url = "http://billiterate.pythonanywhere.com/billapp/comments/?id=" + Integer.toString(billId);
+			//System.err.println("URL = " + url);
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			String responseString = "";
@@ -441,12 +446,16 @@ public class BillInfoActivity extends Activity {
 			}
 			for (int i = 0; i < messageList.length(); i++) {
 				try {
-					JSONArray current = messageList.getJSONArray(i);
+					JSONObject current = messageList.getJSONObject(i);
+					JSONObject fields = current.getJSONObject("fields");
 					Map<String, String> listItem = new HashMap<String, String>(2);
-					listItem.put("ID", current.getString(0));
-					listItem.put("Name", current.getString(1));
-					listItem.put("Comment", current.getString(2));
+					listItem.put("ID", current.getString("pk"));
+					listItem.put("Name", fields.getString("name"));
+					listItem.put("Comment", fields.getString("text"));
 					data.add(listItem);
+					System.err.println("ID = " + current.getString("pk") + 
+										"\nName = " + fields.getString("name") + 
+										"\nText = " + fields.getString("text"));
 				} catch (JSONException e ) {
 					System.err.print(data.toString());
 					e.printStackTrace();
