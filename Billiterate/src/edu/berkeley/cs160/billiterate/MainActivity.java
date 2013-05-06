@@ -610,7 +610,9 @@ public class MainActivity extends FragmentActivity implements
 					if (i == 4)
 						tv = (TextView) getView().findViewById(
 								R.id.trending_five);
-					tv.setText(title);
+					SpannableString ssTitle = new SpannableString(title);
+					ssTitle.setSpan(new UnderlineSpan(), 0, ssTitle.length(), 0);
+					tv.setText(ssTitle);
 					tv.setPadding(10, 10, 10, 10);
 					tv.setOnClickListener(new BillClickListener(this.context, title, summary, rep, id));
 					tv.setVisibility(View.VISIBLE);
