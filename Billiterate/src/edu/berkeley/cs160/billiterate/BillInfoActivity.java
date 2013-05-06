@@ -60,6 +60,8 @@ public class BillInfoActivity extends Activity {
 	ImageButton dislike;
 	TextView summary;
 	EditText commentBox;
+	static String nameHint = "Name - Leave blank for Anonymous";
+	static String username = "";
 
 	ShapeDrawable pgDrawable;
 
@@ -200,9 +202,16 @@ public class BillInfoActivity extends Activity {
 	private void commentClick() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Post a Comment");
-
+		
+		LinearLayout lila = new LinearLayout(this);
+		lila.setOrientation(1);
 		final EditText commentTextBox = new EditText(this);
-		builder.setView(commentTextBox);
+		final EditText nameBox = new EditText(this);
+		nameBox.setHint(nameHint);
+		lila.addView(nameBox);
+		lila.addView(commentTextBox);
+		commentTextBox.setHint("Type Comment Here");
+		builder.setView(lila);
 
 		// Set up the buttons
 		builder.setPositiveButton("Post",
@@ -211,8 +220,19 @@ public class BillInfoActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						String commentText = commentTextBox.getText()
 								.toString();
-						// Will eventually be populated by Facebook login
-						String name = "Anonymous";
+						String name = nameBox.getText().toString();
+						System.err.println(name);
+						if (name.length() > 0) {
+							name = nameBox.getText().toString();
+							nameHint = name;
+							username = name;
+						} else {
+							if (username.length() > 0) {
+								name = username;
+							} else {
+								name = "Anonymous";
+							}
+						}
 						PostTask post = new PostTask();
 						post.execute(Integer.toString(billId), name,
 								commentText);
