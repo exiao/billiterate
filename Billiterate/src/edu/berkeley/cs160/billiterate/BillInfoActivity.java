@@ -60,11 +60,19 @@ public class BillInfoActivity extends Activity {
 	ImageButton dislike;
 	TextView summary;
 	EditText commentBox;
+	static String nameHint = "Name - Leave blank for Anonymous";
+	static String username = "";
 
 	ShapeDrawable pgDrawable;
 
 	boolean liked = false;;
 	boolean disliked = false;
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		loadProgressBars();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,96 +125,50 @@ public class BillInfoActivity extends Activity {
 
 	public void likeBill(View v) {
 		// update ratings and increment progress bar
+		String id = ""+billId;
 		if (liked) {
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
 			likes = likes - 1;
 			liked = false;
-			JSONObject sub_like = new JSONObject();
-			try {
-				sub_like.put("id", billId);
-				sub_like.put("is_like", true);
-				sub_like.put("undo", true);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
 			System.out.println("Undoing a like.");
-			new UpdateRatingsTask().execute(sub_like);
+			new UpdateRatingsTask().execute(id, "True", "True");
 		} else {
 			like.setBackgroundResource(R.drawable.thumbs_up_grn);
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
 			likes = likes + 1;
 			liked = true;
-			JSONObject add_like = new JSONObject();
-			try {
-				add_like.put("id", billId);
-				add_like.put("is_like", true);
-				add_like.put("undo", false);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
 			System.out.println("Marking a like.");
-			new UpdateRatingsTask().execute(add_like);
+			new UpdateRatingsTask().execute(id, "True", "False");
 			if (disliked) {
 				dislikes = dislikes - 1;
 				disliked = false;
-				JSONObject sub_dislike = new JSONObject();
-				try {
-					sub_dislike.put("id", billId);
-					sub_dislike.put("is_like", false);
-					sub_dislike.put("undo", true);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
 				System.out.println("Changing from dislike to like.");
-				new UpdateRatingsTask().execute(sub_dislike);
+				new UpdateRatingsTask().execute(id, "False", "True");
 			}
 		}
 	}
 
 	public void dislikeBill(View v) {
 		// update ratings and decrement progress bar
+		String id = ""+billId;
 		if (disliked) {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
 			dislikes = dislikes - 1;
 			disliked = false;
-			JSONObject sub_dislike = new JSONObject();
-			try {
-				sub_dislike.put("id", billId);
-				sub_dislike.put("is_like", false);
-				sub_dislike.put("undo", true);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
 			System.out.println("Undoing a dislike.");
-			new UpdateRatingsTask().execute(sub_dislike);
+			new UpdateRatingsTask().execute(id, "False", "True");
 		} else {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_red);
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
 			dislikes = dislikes + 1;
 			disliked = true;
-			JSONObject add_dislike = new JSONObject();
-			try {
-				add_dislike.put("id", billId);
-				add_dislike.put("is_like", false);
-				add_dislike.put("undo", false);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
 			System.out.println("Marking a dislike.");
-			new UpdateRatingsTask().execute(add_dislike);
+			new UpdateRatingsTask().execute(id, "False", "False");
 			if (liked) {
 				likes = likes - 1;
 				liked = false;
-				JSONObject sub_like = new JSONObject();
-				try {
-					sub_like.put("id", billId);
-					sub_like.put("is_like", true);
-					sub_like.put("undo", true);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
 				System.out.println("Changing from like to dislike.");
-				new UpdateRatingsTask().execute(sub_like);
+				new UpdateRatingsTask().execute(id, "True", "True");
 			}
 		}
 	}
@@ -240,9 +202,16 @@ public class BillInfoActivity extends Activity {
 	private void commentClick() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Post a Comment");
-
+		
+		LinearLayout lila = new LinearLayout(this);
+		lila.setOrientation(1);
 		final EditText commentTextBox = new EditText(this);
-		builder.setView(commentTextBox);
+		final EditText nameBox = new EditText(this);
+		nameBox.setHint(nameHint);
+		lila.addView(nameBox);
+		lila.addView(commentTextBox);
+		commentTextBox.setHint("Type Comment Here");
+		builder.setView(lila);
 
 		// Set up the buttons
 		builder.setPositiveButton("Post",
@@ -251,8 +220,19 @@ public class BillInfoActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						String commentText = commentTextBox.getText()
 								.toString();
-						// Will eventually be populated by Facebook login
-						String name = "Anonymous";
+						String name = nameBox.getText().toString();
+						System.err.println(name);
+						if (name.length() > 0) {
+							name = nameBox.getText().toString();
+							nameHint = name;
+							username = name;
+						} else {
+							if (username.length() > 0) {
+								name = username;
+							} else {
+								name = "Anonymous";
+							}
+						}
 						PostTask post = new PostTask();
 						post.execute(Integer.toString(billId), name,
 								commentText);
@@ -278,19 +258,25 @@ public class BillInfoActivity extends Activity {
 		builder.show();
 	}
 
-	private class UpdateRatingsTask extends AsyncTask<JSONObject, Void, Void> {
+	private class UpdateRatingsTask extends AsyncTask<String, Void, Void> {
 
 		@Override
-		protected Void doInBackground(JSONObject... params) {
+		protected Void doInBackground(String... params) {
 			String url = "http://billiterate.pythonanywhere.com/billapp/update_likes";
 			HttpClient client = new DefaultHttpClient();
 			try {
 				HttpPost post = new HttpPost(url);
-				StringEntity update = new StringEntity(params[0].toString());
-				post.setEntity(update);
+				List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+				postParameters.add(new BasicNameValuePair("id", params[0]));
+				postParameters.add(new BasicNameValuePair("is_like", params[1]));
+				postParameters
+						.add(new BasicNameValuePair("undo", params[2]));
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(
+						postParameters);
+				post.setEntity(entity);
 				post.setHeader("Accept", "application/json");
 				post.setHeader("Content-type", "application/json");
-				System.out.println("Posting " + params[0].toString() + " to "
+				System.out.println("Posting " + postParameters.toString() + " to "
 						+ url);
 				client.execute(post);
 			} catch (ClientProtocolException cpe) {
@@ -331,9 +317,9 @@ public class BillInfoActivity extends Activity {
 	private class LoadLikesTask extends AsyncTask<Void, Void, JSONArray> {
 
 		protected JSONArray doInBackground(Void... arg0) {
-			String url = "http://billiterate.pythonanywhere.com/billapp/bills?id="
+			String url = "http://billiterate.pythonanywhere.com/billapp/bill?id="
 					+ billId;
-			System.err.println("URL = " + url);
+			System.out.println("URL = " + url);
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			String responseString = "";
@@ -368,8 +354,7 @@ public class BillInfoActivity extends Activity {
 				dislikes = 0;
 				ratings.setBackgroundColor(Color.GRAY);
 				ratings.setProgress(0);
-				System.err
-						.println("This bill has not been liked/disliked before, should display gray bar");
+				System.out.println("This bill has not been liked/disliked before, should display gray bar");
 			} else {
 				for (int i = 0; i < messageList.length(); i++) {
 					try {
@@ -377,8 +362,7 @@ public class BillInfoActivity extends Activity {
 						JSONObject fields = current.getJSONObject("fields");
 						likes = fields.getInt("num_likes");
 						dislikes = fields.getInt("num_dislikes");
-						System.out.println("Likes: " + likes + " Dislikes: "
-								+ dislikes);
+						System.out.println("Likes: " + likes + " Dislikes: " + dislikes);
 					} catch (JSONException e) {
 						System.err.println(messageList.toString());
 						e.printStackTrace();
@@ -389,8 +373,7 @@ public class BillInfoActivity extends Activity {
 					int up = (likes * 100) / total;
 					ratings.setBackgroundColor(Color.RED);
 					pgDrawable.getPaint().setColor(Color.GREEN);
-					System.out
-							.println("progress bar should be green and up to: "
+					System.out.println("progress bar should be green and up to: "
 									+ up);
 					ratings.setProgress(up);
 				}

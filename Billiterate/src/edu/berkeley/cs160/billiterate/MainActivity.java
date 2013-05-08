@@ -31,6 +31,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -244,6 +246,8 @@ public class MainActivity extends FragmentActivity implements
 					dateHeading.setPadding(10, 10, 10, 10);
 					dateHeading.setGravity(Gravity.CENTER);
 					dateHeading.setBackgroundResource(R.drawable.border);
+					dateHeading.setBackgroundColor(Color.BLACK);
+					dateHeading.setTextColor(Color.CYAN);
 					dateHeading.setText(mt.date);
 					dateHeading.setTextSize(25);
 					date = mt.date;
@@ -508,7 +512,10 @@ public class MainActivity extends FragmentActivity implements
 					bill.setPadding(20, 10, 20, 10);
 					bill.setBackgroundResource(R.drawable.border);
 					bill.setGravity(Gravity.CENTER_VERTICAL);
-					bill.setText(title);
+					SpannableString u_title = new SpannableString(title);
+					u_title.setSpan(new UnderlineSpan(), 0, title.length(), 0);
+					bill.setText(u_title);
+					bill.setTextColor(Color.BLACK);
 					bill.setTextSize(18);
 					bill.setClickable(true);
 					bill.setOnClickListener(new BillClickListener(this.context, title, summary, representative, id));
@@ -663,7 +670,9 @@ public class MainActivity extends FragmentActivity implements
 					if (i == 4)
 						tv = (TextView) getView().findViewById(
 								R.id.trending_five);
-					tv.setText(title);
+					SpannableString ssTitle = new SpannableString(title);
+					ssTitle.setSpan(new UnderlineSpan(), 0, ssTitle.length(), 0);
+					tv.setText(ssTitle);
 					tv.setPadding(10, 10, 10, 10);
 					tv.setOnClickListener(new BillClickListener(this.context, title, summary, rep, id));
 					tv.setVisibility(View.VISIBLE);
