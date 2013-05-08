@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Billiterate - Berkeley</string>
+    <string name="title_section4">Bills</string>
     <string name="title_section3">Representatives</string>
     <string name="title_section2">Trending</string>
     <string name="title_section1">Agenda</string>
@@ -16,11 +17,27 @@
     <string name="add_comment">Add a comment</string>
     <string name="post">Post</string>
     <string name="findLocation">Find Meeting Location</string>
-    
-
     <string name="title_activity_representative">RepresentativeActivity</string>
     <string name="Select_a_Representative">Select a Representative</string>
     <string name="photoDesc">Photo</string>
     <string name="See_Official_Webpage">See Official Webpage</string>
+    <string name="welcomeTitle">Welcome to Billiterate!</string>
+    <string name="welcomeText">This is Billiterate, your guide to local politics</string>
+    <string name="ok">Ok!</string>
+    <string name="title_activity_tutorial">Welcome to Billiterate!</string>
+    <string name="tutorial_close_button">I\'m ready to see bills!</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="tutorial_heading">Bringing Local Politics to the Masses</string>
+    <string name="tutorial_text">See what\'s going on politically in your local area!</string>
+    <string name="tutorial_agenda">See when and where political meetings are in your local area!</string>
+    <string name="tutorial_representatives">Look through your local political officers and find their contact information!</string>
+    <string name="tutorial_trending">See what people care about most right now in local politics! 
+        Bills are ranked based on total likes and dislikes.</string>
+    <string name="tutorial_bills">Look through different bills and understand what proposals are being made. 
+        Voice your opinion in the comments and like or dislike a bill!</string>
+    <string name="tutorial_trending_heading">Trending Bills</string>
+    <string name="tutorial_bills_heading">Viewing a Bill</string>
+    <string name="tutorial_representatives_heading">Contact a Representative</string>
+    <string name="tutorial_agenda_heading">See the political schedule</string>
 
 </resources>

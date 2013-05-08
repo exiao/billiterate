@@ -23,15 +23,18 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -51,12 +54,41 @@ public class MainActivity extends FragmentActivity implements
 	private Fragment agendaFragment;
 	private Fragment trendingFragment;
 	private Fragment representativeFragment;
+	
+	SharedPreferences mPrefs;
+	final String welcomeScreenShownPref = "welcomeScreenShown";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//Set up welcome screen
+		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+		// second argument is the default to use if the preference can't be found
+		Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false);
+
+		if (!welcomeScreenShown) {
+			// here you can launch another activity if you like
+			// the code below will display a popup
+			Intent intent = new Intent(this, TabActivity.class);
+			startActivity(intent);
+
+			/*String welcomeTitle = getResources().getString(R.string.welcomeTitle);
+			        String welcomeText = getResources().getString(R.string.welcomeText);
+			        new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(welcomeTitle).setMessage(welcomeText).setPositiveButton(
+			                R.string.ok, new DialogInterface.OnClickListener() {
+			                    public void onClick(DialogInterface dialog, int which) {
+			                        dialog.dismiss();
+			                    }
+			                }).show();*/
+			SharedPreferences.Editor editor = mPrefs.edit();
+			editor.putBoolean(welcomeScreenShownPref, true);
+			editor.commit(); // Very important to save the preference
+		}
+		
+		
 		this.agendaFragment = new AgendaFragment();
 		this.trendingFragment = new TrendingFragment();
 		this.representativeFragment = new RepresentativeActivity.AsFragment();
@@ -108,6 +140,19 @@ public class MainActivity extends FragmentActivity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.menu_help:
+	            Intent intent = new Intent(this, TabActivity.class);
+	            startActivity(intent);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 	@Override
@@ -165,6 +210,7 @@ public class MainActivity extends FragmentActivity implements
 
 		ArrayList<Meeting> meetingsList = new ArrayList<Meeting>();
 		LinearLayout ll;
+		View agenda2;
 
 		public AgendaFragment() {
 		}
@@ -174,6 +220,7 @@ public class MainActivity extends FragmentActivity implements
 				Bundle savedInstanceState) {
 			View agenda = inflater.inflate(R.layout.agenda_layout, container,
 					false);
+			agenda2 = agenda;
 			ll = (LinearLayout) agenda.findViewById(R.id.agenda_layout);
 			LoadAgendaTask load_agenda = new LoadAgendaTask();
 			load_agenda.execute();
@@ -190,7 +237,7 @@ public class MainActivity extends FragmentActivity implements
 			for (final Meeting mt : meetingsList) {
 				if (!(mt.date.equals(date))) {
 					System.out.println("setting agenda there is a new date!");
-					TextView dateHeading = new TextView(this.getActivity());
+					TextView dateHeading = new TextView(getActivity());
 					dateHeading.setLayoutParams(new LayoutParams(
 							LayoutParams.MATCH_PARENT,
 							LayoutParams.WRAP_CONTENT));
@@ -351,6 +398,9 @@ public class MainActivity extends FragmentActivity implements
 					System.err.println("After adding meeting to list, there are "
 									+ meetingsList.size() + " meetings!");
 				}
+				if (ll==null) {
+					ll = (LinearLayout) agenda2.findViewById(R.id.agenda_layout);
+				}
 				setAgendaView(ll);
 
 			}
@@ -488,6 +538,16 @@ public class MainActivity extends FragmentActivity implements
 			task.execute();
 			return ret;
 		}
+		
+		  @Override
+		  public void onActivityCreated(Bundle savedInstanceState) {
+		      super.onActivityCreated(savedInstanceState);
+		  }
+		  
+		  @Override
+		  public void onSaveInstanceState(Bundle outState) {
+		      super.onSaveInstanceState(outState);
+		  }
 		
 		private class BillClickListener implements OnClickListener {
 
