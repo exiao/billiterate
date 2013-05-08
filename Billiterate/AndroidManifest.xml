@@ -35,12 +35,6 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="edu.berkeley.cs160.billiterate.TutorialActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_tutorial"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
-        <activity
             android:name="edu.berkeley.cs160.billiterate.TabActivity"
             android:label="@string/app_name" >
         </activity>
