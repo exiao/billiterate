@@ -19,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.berkeley.cs160.billiterate.R.drawable;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -42,6 +44,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -265,20 +268,24 @@ public class MainActivity extends FragmentActivity implements
 				final LinearLayout billsList = (LinearLayout) agendaItem
 						.findViewById(R.id.expandable);
 
-				TextView heading = (TextView) agendaItem
-						.findViewById(R.id.header);
+
+				TextView heading = (TextView) agendaItem.findViewById(R.id.header);
+				final ImageView arrow = (ImageView) agendaItem.findViewById(R.id.accordion_arrow);
+				arrow.setId(1);
+
 				heading.setText(mt.type + " " + mt.time);
 				heading.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						billsList
-								.setVisibility(billsList.getVisibility() == View.GONE ? View.VISIBLE
-										: View.GONE);
-					}
+				@Override
+				public void onClick(View v) {
+				arrow.setImageResource(billsList.getVisibility() == View.GONE ?
+				R.drawable.arrowhead_down : R.drawable.arrowhead_right);
+				billsList.setVisibility(billsList.getVisibility() == View.GONE ?
+				View.VISIBLE : View.GONE);
+				arrow.invalidate();
+				}
 				});
 
-				TextView loc = (TextView) agendaItem
-						.findViewById(R.id.location);
+				TextView loc = (TextView) agendaItem.findViewById(R.id.location);
 				loc.setText(mt.location);
 				loc.setTextSize(20);
 
@@ -661,6 +668,7 @@ public class MainActivity extends FragmentActivity implements
 					trendingItems.addView(newItem);
 					return;
 				}
+				
 				for (int i = 0; i < messageList.length() && i < 5; i++) {
 					String title = "";
 					String summary = "";

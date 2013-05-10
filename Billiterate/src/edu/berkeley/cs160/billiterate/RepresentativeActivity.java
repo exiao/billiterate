@@ -60,17 +60,19 @@ public class RepresentativeActivity extends Activity {
 		private ArrayList<String> allNames;
 		private View view;
 		private Activity owner;
-
+		private String bill_title = "";
+		
 		public void onCreateView(View createdView, Bundle args, Activity owner) {
 			this.view = createdView;
 			this.owner = owner;
 
 			Bundle extras = args;
 			String repName = "<None>";
-
-			if (extras != null)
+			
+			if (extras != null) {
 				repName = extras.getString("representative");
-
+				bill_title = extras.getString("bill_title");
+			}
 			this.all = new ArrayList<Representative>();
 			this.all.add(null);
 			this.all.addAll(Representative.getAll());
@@ -172,7 +174,7 @@ public class RepresentativeActivity extends Activity {
 			TextView emailText = (TextView) view.findViewById(R.id.emailLabel);
 			emailText.setMovementMethod(LinkMovementMethod.getInstance());
 			emailText.setText(Html.fromHtml("Email <a href=\"mailto:"
-					+ rep.getEmail() + "\">" + rep.getEmail() + "</a>"));
+					+ rep.getEmail() + "?subject=" + bill_title + "\">" + rep.getEmail() + "</a>"));
 
 			Button official = (Button) view.findViewById(R.id.seeWebsiteButton);
 			official.setOnClickListener(new OnClickListener() {
