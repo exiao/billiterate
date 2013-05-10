@@ -268,35 +268,27 @@ public class MainActivity extends FragmentActivity implements
 				final LinearLayout billsList = (LinearLayout) agendaItem
 						.findViewById(R.id.expandable);
 
-
-				TextView heading = (TextView) agendaItem.findViewById(R.id.header);
-				final ImageView arrow = (ImageView) agendaItem.findViewById(R.id.accordion_arrow);
+				TextView heading = (TextView) agendaItem
+						.findViewById(R.id.header);
+				final ImageView arrow = (ImageView) agendaItem
+						.findViewById(R.id.accordion_arrow);
 				arrow.setId(1);
 
 				heading.setText(mt.type + " " + mt.time);
 				heading.setOnClickListener(new OnClickListener() {
-<<<<<<< HEAD
-				@Override
-				public void onClick(View v) {
-				arrow.setImageResource(billsList.getVisibility() == View.GONE ?
-				R.drawable.arrowhead_down : R.drawable.arrowhead_right);
-				billsList.setVisibility(billsList.getVisibility() == View.GONE ?
-				View.VISIBLE : View.GONE);
-				arrow.invalidate();
-				}
-=======
 					@Override
 					public void onClick(View v) {
-						arrow.setImageResource(billsList.getVisibility() == View.GONE ? 
-								R.drawable.arrowhead_down : R.drawable.arrowhead_right);
-						billsList.setVisibility(billsList.getVisibility() == View.GONE ? 
-								View.VISIBLE : View.GONE);
+						arrow.setImageResource(billsList.getVisibility() == View.GONE ? R.drawable.arrowhead_down
+								: R.drawable.arrowhead_right);
+						billsList
+								.setVisibility(billsList.getVisibility() == View.GONE ? View.VISIBLE
+										: View.GONE);
 						arrow.invalidate();
 					}
->>>>>>> 9b93f5735008884202420556a58f268726e1ade6
 				});
 
-				TextView loc = (TextView) agendaItem.findViewById(R.id.location);
+				TextView loc = (TextView) agendaItem
+						.findViewById(R.id.location);
 				loc.setText(mt.location);
 				loc.setTextSize(20);
 
@@ -679,13 +671,8 @@ public class MainActivity extends FragmentActivity implements
 					trendingItems.addView(newItem);
 					return;
 				}
-<<<<<<< HEAD
-				
+
 				for (int i = 0; i < messageList.length() && i < 5; i++) {
-=======
-				TextView tv = null;
-				for (int i = 0; i < messageList.length() && i < 10; i++) {
->>>>>>> 9b93f5735008884202420556a58f268726e1ade6
 					String title = "";
 					String summary = "";
 					String rep = "";
@@ -711,10 +698,10 @@ public class MainActivity extends FragmentActivity implements
 					ssTitle.setSpan(new UnderlineSpan(), 0, ssTitle.length(), 0);
 					((TextView) newItem.findViewById(R.id.name))
 							.setText(ssTitle);
-					((TextView) newItem.findViewById(R.id.likes)).setText("Likes: "
-							+ numLikes);
-					((TextView) newItem.findViewById(R.id.dislikes)).setText("Dislikes: "
-							+ numDislikes);
+					((TextView) newItem.findViewById(R.id.likes))
+							.setText("Likes: " + numLikes);
+					((TextView) newItem.findViewById(R.id.dislikes))
+							.setText("Dislikes: " + numDislikes);
 					newItem.setOnClickListener(new BillClickListener(
 							this.context, title, summary, rep, id));
 					trendingItems.addView(newItem);
