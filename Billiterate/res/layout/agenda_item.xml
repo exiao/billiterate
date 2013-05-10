@@ -24,8 +24,7 @@
         android:layout_gravity="center_vertical"
         android:layout_alignBottom="@id/header"
         android:contentDescription="arrow"
-        android:src="@drawable/arrowhead_right"
-        />
+        android:src="@drawable/arrowhead_right" />
     
     <LinearLayout
         android:id="@+id/expandable"

@@ -52,8 +52,8 @@ public class BillInfoActivity extends Activity {
 	LinearLayout bill_view;
 	TextView bill_title_textview;
 	ProgressBar ratings;
-	// ProgressBar down_ratings;
-	// ProgressBar up_ratings;
+	TextView likesText;
+	TextView dislikesText;
 	int likes;
 	int dislikes;
 	ImageButton like;
@@ -88,6 +88,8 @@ public class BillInfoActivity extends Activity {
 		bill_view = (LinearLayout) findViewById(R.id.bill_view);
 		bill_title_textview = (TextView) findViewById(R.id.title);
 		ratings = (ProgressBar) findViewById(R.id.ratings);
+		likesText = (TextView) findViewById(R.id.likesText);
+		dislikesText = (TextView) findViewById(R.id.dislikesText);
 		like = (ImageButton) findViewById(R.id.like);
 		dislike = (ImageButton) findViewById(R.id.dislike);
 		summary = (TextView) findViewById(R.id.bill_summary);
@@ -296,21 +298,19 @@ public class BillInfoActivity extends Activity {
 			int total = likes + dislikes;
 			System.out.println("The total is: " + total);
 			if (total > 0) {
-				int up = (likes * 100) / total;
-				ratings.setBackgroundColor(Color.RED);
-				pgDrawable.getPaint().setColor(Color.GREEN);
-				ratings.setProgress(up);
-				System.out
-						.println("============= Set ProgressBar Task =============");
-				System.out
-						.println("Likes: " + likes + " Dislikes: " + dislikes);
-				System.out
-						.println("==================================================");
+				int down = (dislikes * 100) / total;
+				ratings.setBackgroundColor(Color.GREEN);
+				pgDrawable.getPaint().setColor(Color.RED);
+				ratings.setProgress(down);
 			} else {
 				System.out.println("The ratings bar should be reset to zero!");
 				ratings.setBackgroundColor(Color.GRAY);
 				ratings.setProgress(0);
 			}
+			likesText.setTextColor(likes == 0 ? Color.GRAY : Color.GREEN);
+			dislikesText.setTextColor(dislikes == 0 ? Color.GRAY : Color.RED);
+			likesText.setText(likes + " likes, ");
+			dislikesText.setText(dislikes + " dislikes");
 		}
 
 	}
@@ -371,32 +371,24 @@ public class BillInfoActivity extends Activity {
 				}
 				int total = likes + dislikes;
 				if (total > 0) {
-					int up = (likes * 100) / total;
-					ratings.setBackgroundColor(Color.RED);
-					pgDrawable.getPaint().setColor(Color.GREEN);
+					int down = (dislikes * 100) / total;
+					ratings.setBackgroundColor(Color.GREEN);
+					pgDrawable.getPaint().setColor(Color.RED);
 					System.out.println("progress bar should be green and up to: "
-									+ up);
-					ratings.setProgress(up);
+									+ down);
+					ratings.setProgress(down);
 				}
 			}
+			likesText.setTextColor(likes == 0 ? Color.GRAY : Color.GREEN);
+			dislikesText.setTextColor(dislikes == 0 ? Color.GRAY : Color.RED);
+			likesText.setText(likes + " likes, ");
+			dislikesText.setText(dislikes + " dislikes");
 		}
 	}
 
 	public void postComment(View v) {
-		/*
-		 * TextView commentText = new TextView(this);
-		 * commentText.setText(commentBox.getText());
-		 * commentText.setLayoutParams(new LayoutParams(
-		 * LinearLayout.LayoutParams.MATCH_PARENT,
-		 * LinearLayout.LayoutParams.WRAP_CONTENT ));
-		 * commentText.setBackgroundDrawable
-		 * (BillInfoActivity.this.getResources()
-		 * .getDrawable(R.drawable.black_border));
-		 * bill_view.addView(commentText);
-		 */
 		String commentText = commentBox.getText().toString();
-		String name = "Anonymous"; // Will eventually be populated by Facebook
-									// login
+		String name = "Anonymous";
 		PostTask post = new PostTask();
 		post.execute(Integer.toString(billId), name, commentText);
 		// System.err.println("bill ID = " + Integer.toString(billId));
@@ -452,7 +444,6 @@ public class BillInfoActivity extends Activity {
 		protected JSONArray doInBackground(Void... arg0) {
 			String url = "http://billiterate.pythonanywhere.com/billapp/comments/?id="
 					+ Integer.toString(billId);
-			// System.err.println("URL = " + url);
 			HttpResponse response;
 			HttpClient client = new DefaultHttpClient();
 			String responseString = "";
@@ -499,13 +490,15 @@ public class BillInfoActivity extends Activity {
 					View commentView = LayoutInflater.from(
 							BillInfoActivity.this).inflate(
 							R.layout.comment_layout, comments, false);
-					TextView nameText = (TextView) commentView
-							.findViewById(R.id.nameText);
-					TextView commentText = (TextView) commentView
-							.findViewById(R.id.commentText);
-					TextView idText = (TextView) commentView
-							.findViewById(R.id.IDText);
+					TextView nameText = (TextView) commentView.findViewById(R.id.nameText);
+					TextView commentText = (TextView) commentView.findViewById(R.id.commentText);
+					TextView idText = (TextView) commentView.findViewById(R.id.IDText);
+					TextView date = (TextView) commentView.findViewById(R.id.commentDate);
 					nameText.setText(fields.getString("name"));
+					nameText.setTextSize(20);
+					date.setText(fields.getString("date_time"));
+					date.setTextSize(16);
+					date.setTextColor(Color.GRAY);
 					commentText.setText(fields.getString("text"));
 					idText.setText(current.getString("pk"));
 					comments.addView(commentView);
