@@ -275,6 +275,7 @@ public class MainActivity extends FragmentActivity implements
 
 				heading.setText(mt.type + " " + mt.time);
 				heading.setOnClickListener(new OnClickListener() {
+<<<<<<< HEAD
 				@Override
 				public void onClick(View v) {
 				arrow.setImageResource(billsList.getVisibility() == View.GONE ?
@@ -283,6 +284,16 @@ public class MainActivity extends FragmentActivity implements
 				View.VISIBLE : View.GONE);
 				arrow.invalidate();
 				}
+=======
+					@Override
+					public void onClick(View v) {
+						arrow.setImageResource(billsList.getVisibility() == View.GONE ? 
+								R.drawable.arrowhead_down : R.drawable.arrowhead_right);
+						billsList.setVisibility(billsList.getVisibility() == View.GONE ? 
+								View.VISIBLE : View.GONE);
+						arrow.invalidate();
+					}
+>>>>>>> 9b93f5735008884202420556a58f268726e1ade6
 				});
 
 				TextView loc = (TextView) agendaItem.findViewById(R.id.location);
@@ -668,8 +679,13 @@ public class MainActivity extends FragmentActivity implements
 					trendingItems.addView(newItem);
 					return;
 				}
+<<<<<<< HEAD
 				
 				for (int i = 0; i < messageList.length() && i < 5; i++) {
+=======
+				TextView tv = null;
+				for (int i = 0; i < messageList.length() && i < 10; i++) {
+>>>>>>> 9b93f5735008884202420556a58f268726e1ade6
 					String title = "";
 					String summary = "";
 					String rep = "";
