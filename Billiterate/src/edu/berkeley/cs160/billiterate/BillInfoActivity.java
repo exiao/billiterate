@@ -190,6 +190,7 @@ public class BillInfoActivity extends Activity {
 		// takes user to representative's info screen
 		Intent i = new Intent(this, RepresentativeActivity.class);
 		i.putExtra("representative", representative);
+		i.putExtra("bill_title", bill_title);
 		startActivity(i);
 	}
 
