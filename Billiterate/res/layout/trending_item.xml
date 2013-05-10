@@ -3,14 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
+        android:background="@drawable/border"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
         android:padding="10dp"
+        android:layout_toLeftOf="@+id/dislikes"
+        android:layout_alignParentLeft="true"
         android:textSize="25sp" />
 
     <TextView
@@ -18,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@drawable/border"
         android:padding="3sp"
         android:textColor="@color/green"
         android:textSize="25sp" />
@@ -29,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/likes"
-        android:background="@drawable/border"
         android:padding="3sp"
         android:textColor="@color/red"
         android:textSize="25sp" />
