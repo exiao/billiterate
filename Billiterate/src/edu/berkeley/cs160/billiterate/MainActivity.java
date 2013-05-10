@@ -648,7 +648,7 @@ public class MainActivity extends FragmentActivity implements
 					return;
 				}
 				TextView tv = null;
-				for (int i = 0; i < messageList.length() && i < 5; i++) {
+				for (int i = 0; i < messageList.length() && i < 10; i++) {
 					String title = "";
 					String summary = "";
 					String rep = "";
