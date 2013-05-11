@@ -2,17 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/border"
     android:clickable="true"
-        android:background="@drawable/border"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_toLeftOf="@+id/dislikes"
         android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/dislikes"
+        android:padding="10dp"
         android:textSize="25sp" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_alignParentRight="true"
         android:padding="3sp"
         android:textColor="@color/green"
-        android:textSize="25sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/dislikes"
@@ -32,6 +32,6 @@
         android:layout_below="@+id/likes"
         android:padding="3sp"
         android:textColor="@color/red"
-        android:textSize="25sp" />
+        android:textSize="15sp" />
 
 </RelativeLayout>
