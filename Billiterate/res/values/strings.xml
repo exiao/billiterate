@@ -39,5 +39,6 @@
     <string name="tutorial_bills_heading">Viewing a Bill</string>
     <string name="tutorial_representatives_heading">Contact a Representative</string>
     <string name="tutorial_agenda_heading">See the political schedule</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

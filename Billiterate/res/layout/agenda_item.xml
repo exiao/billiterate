@@ -14,18 +14,7 @@
         android:paddingRight="10dp"
         android:paddingTop="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-    <ImageView
-    	android:id="@+id/accordion_arrow"
-    	android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_vertical"
-        android:layout_alignBottom="@id/header"
-        android:contentDescription="arrow"
-        android:src="@drawable/arrowhead_right" />
-    
+
     <LinearLayout
         android:id="@+id/expandable"
         android:layout_width="match_parent"

@@ -2,9 +2,6 @@
 <resources>
 
     <color name="black">#ff000000</color>
-    <color name="green">#ff00ff00</color>
-    <color name="red">#ffff0000</color>
     <color name="black_overlay">#66000000</color>
-    <color name="overscroll">#33b5e5</color>
-
+	<color name="overscroll">#33b5e5</color>
 </resources>

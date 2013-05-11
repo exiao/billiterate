@@ -154,15 +154,19 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.menu_help:
-			Intent intent = new Intent(this, TabActivity.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.menu_help:
+	            Intent intent = new Intent(this, TabActivity.class);
+	            startActivity(intent);
+	            return true;
+	        case R.id.menu_search:
+	        	Intent search = new Intent(this, SearchActivity.class);
+	        	startActivity(search);
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 	@Override
