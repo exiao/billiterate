@@ -19,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.berkeley.cs160.billiterate.R.drawable;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -42,6 +44,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -56,7 +59,7 @@ public class MainActivity extends FragmentActivity implements
 	private Fragment agendaFragment;
 	private Fragment trendingFragment;
 	private Fragment representativeFragment;
-	
+
 	SharedPreferences mPrefs;
 	final String welcomeScreenShownPref = "welcomeScreenShown";
 
@@ -64,12 +67,14 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		//Set up welcome screen
+
+		// Set up welcome screen
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		// second argument is the default to use if the preference can't be found
-		Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false);
+		// second argument is the default to use if the preference can't be
+		// found
+		Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref,
+				false);
 
 		if (!welcomeScreenShown) {
 			// here you can launch another activity if you like
@@ -77,20 +82,23 @@ public class MainActivity extends FragmentActivity implements
 			Intent intent = new Intent(this, TabActivity.class);
 			startActivity(intent);
 
-			/*String welcomeTitle = getResources().getString(R.string.welcomeTitle);
-			        String welcomeText = getResources().getString(R.string.welcomeText);
-			        new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(welcomeTitle).setMessage(welcomeText).setPositiveButton(
-			                R.string.ok, new DialogInterface.OnClickListener() {
-			                    public void onClick(DialogInterface dialog, int which) {
-			                        dialog.dismiss();
-			                    }
-			                }).show();*/
+			/*
+			 * String welcomeTitle =
+			 * getResources().getString(R.string.welcomeTitle); String
+			 * welcomeText = getResources().getString(R.string.welcomeText); new
+			 * AlertDialog
+			 * .Builder(this).setIcon(android.R.drawable.ic_dialog_alert
+			 * ).setTitle
+			 * (welcomeTitle).setMessage(welcomeText).setPositiveButton(
+			 * R.string.ok, new DialogInterface.OnClickListener() { public void
+			 * onClick(DialogInterface dialog, int which) { dialog.dismiss(); }
+			 * }).show();
+			 */
 			SharedPreferences.Editor editor = mPrefs.edit();
 			editor.putBoolean(welcomeScreenShownPref, true);
 			editor.commit(); // Very important to save the preference
 		}
-		
-		
+
 		this.agendaFragment = new AgendaFragment();
 		this.trendingFragment = new TrendingFragment();
 		this.representativeFragment = new RepresentativeActivity.AsFragment();
@@ -143,7 +151,7 @@ public class MainActivity extends FragmentActivity implements
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
@@ -191,11 +199,11 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	/*public void onBillClick(View view) {
-		Intent intent = new Intent(this, BillInfoActivity.class);
-		intent.putExtra("title", ((TextView) view).getText());
-		startActivity(intent);
-	}*/
+	/*
+	 * public void onBillClick(View view) { Intent intent = new Intent(this,
+	 * BillInfoActivity.class); intent.putExtra("title", ((TextView)
+	 * view).getText()); startActivity(intent); }
+	 */
 
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
@@ -238,7 +246,8 @@ public class MainActivity extends FragmentActivity implements
 			ll.removeAllViews();
 
 			String date = "";
-			System.out.println("There should be two meetings listed, and there is actually: "
+			System.out
+					.println("There should be two meetings listed, and there is actually: "
 							+ meetingsList.size());
 			for (final Meeting mt : meetingsList) {
 				if (!(mt.date.equals(date))) {
@@ -260,34 +269,48 @@ public class MainActivity extends FragmentActivity implements
 
 				View agendaItem = LayoutInflater.from(getActivity()).inflate(
 						R.layout.agenda_item, ll, false);
-				final LinearLayout billsList = (LinearLayout) agendaItem.findViewById(R.id.expandable);
+				final LinearLayout billsList = (LinearLayout) agendaItem
+						.findViewById(R.id.expandable);
 
-				TextView heading = (TextView) agendaItem.findViewById(R.id.header);
+				TextView heading = (TextView) agendaItem
+						.findViewById(R.id.header);
+				final ImageView arrow = (ImageView) agendaItem
+						.findViewById(R.id.accordion_arrow);
+				arrow.setId(1);
+
 				heading.setText(mt.type + " " + mt.time);
 				heading.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						billsList.setVisibility(billsList.getVisibility() == View.GONE ? 
-								View.VISIBLE : View.GONE);
+						arrow.setImageResource(billsList.getVisibility() == View.GONE ? R.drawable.arrowhead_down
+								: R.drawable.arrowhead_right);
+						billsList
+								.setVisibility(billsList.getVisibility() == View.GONE ? View.VISIBLE
+										: View.GONE);
+						arrow.invalidate();
 					}
 				});
 
-				TextView loc = (TextView) agendaItem.findViewById(R.id.location);
+				TextView loc = (TextView) agendaItem
+						.findViewById(R.id.location);
 				loc.setText(mt.location);
 				loc.setTextSize(20);
 
-				Button findLocationButton = (Button) agendaItem.findViewById(R.id.findLocation);
+				Button findLocationButton = (Button) agendaItem
+						.findViewById(R.id.findLocation);
 				findLocationButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						String uri = "geo:0,0?q=" + mt.location + ", Berkeley, CA";
+						String uri = "geo:0,0?q=" + mt.location
+								+ ", Berkeley, CA";
 						uri = uri.replace(" ", "+");
 						Intent intent = new Intent(
-								android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+								android.content.Intent.ACTION_VIEW, Uri
+										.parse(uri));
 						startActivity(intent);
 					}
 				});
-				
+
 				ll.addView(agendaItem);
 
 				LoadBillsTask load_bills = new LoadBillsTask(this.getActivity()
@@ -372,7 +395,8 @@ public class MainActivity extends FragmentActivity implements
 
 			protected void onPostExecute(JSONArray messageList) {
 				if (messageList == null && meetingsList.size() == 0) {
-					System.err.println("Something went wrong with loading agenda");
+					System.err
+							.println("Something went wrong with loading agenda");
 					return;
 				}
 
@@ -403,18 +427,20 @@ public class MainActivity extends FragmentActivity implements
 					Meeting mt = new Meeting(pk, date, time, type, location);
 					System.err.println("Adding new meeting to list");
 					meetingsList.add(mt);
-					System.err.println("After adding meeting to list, there are "
+					System.err
+							.println("After adding meeting to list, there are "
 									+ meetingsList.size() + " meetings!");
 				}
-				if (ll==null) {
-					ll = (LinearLayout) agenda2.findViewById(R.id.agenda_layout);
+				if (ll == null) {
+					ll = (LinearLayout) agenda2
+							.findViewById(R.id.agenda_layout);
 				}
 				setAgendaView(ll);
 
 			}
 
 		}
-		
+
 		private class BillClickListener implements OnClickListener {
 
 			Context context;
@@ -489,7 +515,8 @@ public class MainActivity extends FragmentActivity implements
 
 			protected void onPostExecute(JSONArray messageList) {
 				if (messageList == null) {
-					System.err.println("something went wrong with getting the bills");
+					System.err
+							.println("something went wrong with getting the bills");
 					return;
 				}
 
@@ -522,7 +549,8 @@ public class MainActivity extends FragmentActivity implements
 					bill.setTextColor(Color.BLACK);
 					bill.setTextSize(18);
 					bill.setClickable(true);
-					bill.setOnClickListener(new BillClickListener(this.context, title, summary, representative, id));
+					bill.setOnClickListener(new BillClickListener(this.context,
+							title, summary, representative, id));
 					bills_layout.addView(bill);
 					View bar = new View(this.context);
 					bar.setLayoutParams(new LayoutParams(
@@ -549,17 +577,17 @@ public class MainActivity extends FragmentActivity implements
 			task.execute();
 			return ret;
 		}
-		
-		  @Override
-		  public void onActivityCreated(Bundle savedInstanceState) {
-		      super.onActivityCreated(savedInstanceState);
-		  }
-		  
-		  @Override
-		  public void onSaveInstanceState(Bundle outState) {
-		      super.onSaveInstanceState(outState);
-		  }
-		
+
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+		}
+
+		@Override
+		public void onSaveInstanceState(Bundle outState) {
+			super.onSaveInstanceState(outState);
+		}
+
 		private class BillClickListener implements OnClickListener {
 
 			Context context;
@@ -596,7 +624,7 @@ public class MainActivity extends FragmentActivity implements
 			 * ).setVisibility(View.VISIBLE); }
 			 */
 			Context context;
-			
+
 			public LoadTrendingTask(Context context) {
 				this.context = context;
 			}
@@ -635,18 +663,25 @@ public class MainActivity extends FragmentActivity implements
 			protected void onPostExecute(JSONArray messageList) {
 				getView().findViewById(R.id.trending_progress).setVisibility(
 						View.GONE);
+				LinearLayout trendingItems = (LinearLayout) getView()
+						.findViewById(R.id.trendingItems);
+				trendingItems.removeAllViews();
+				LayoutInflater inflater = LayoutInflater.from(getActivity());
 				if (messageList == null) {
-					TextView err = ((TextView) getView().findViewById(
-							R.id.trending_one));
-					err.setText("There was an error");
-					err.setVisibility(View.VISIBLE);
+					View newItem = inflater.inflate(R.layout.trending_item,
+							trendingItems, false);
+					((TextView) newItem.findViewById(R.id.name))
+							.setText("There was an error");
+					trendingItems.addView(newItem);
 					return;
 				}
-				TextView tv = null;
+
 				for (int i = 0; i < messageList.length() && i < 5; i++) {
 					String title = "";
 					String summary = "";
 					String rep = "";
+					int numLikes = 0;
+					int numDislikes = 0;
 					int id = 0;
 					try {
 						JSONObject current = messageList.getJSONObject(i);
@@ -655,31 +690,25 @@ public class MainActivity extends FragmentActivity implements
 						title = fields.getString("title");
 						summary = fields.getString("summary");
 						rep = fields.getString("representative");
+						numLikes = fields.getInt("num_likes");
+						numDislikes = fields.getInt("num_dislikes");
 					} catch (JSONException e) {
 						System.err.print(messageList.toString());
 						e.printStackTrace();
 					}
-					if (i == 0)
-						tv = (TextView) getView().findViewById(
-								R.id.trending_one);
-					if (i == 1)
-						tv = (TextView) getView().findViewById(
-								R.id.trending_two);
-					if (i == 2)
-						tv = (TextView) getView().findViewById(
-								R.id.trending_three);
-					if (i == 3)
-						tv = (TextView) getView().findViewById(
-								R.id.trending_four);
-					if (i == 4)
-						tv = (TextView) getView().findViewById(
-								R.id.trending_five);
+					View newItem = inflater.inflate(R.layout.trending_item,
+							trendingItems, false);
 					SpannableString ssTitle = new SpannableString(title);
 					ssTitle.setSpan(new UnderlineSpan(), 0, ssTitle.length(), 0);
-					tv.setText(ssTitle);
-					tv.setPadding(10, 10, 10, 10);
-					tv.setOnClickListener(new BillClickListener(this.context, title, summary, rep, id));
-					tv.setVisibility(View.VISIBLE);
+					((TextView) newItem.findViewById(R.id.name))
+							.setText(ssTitle);
+					((TextView) newItem.findViewById(R.id.likes))
+							.setText("Likes: " + numLikes);
+					((TextView) newItem.findViewById(R.id.dislikes))
+							.setText("Dislikes: " + numDislikes);
+					newItem.setOnClickListener(new BillClickListener(
+							this.context, title, summary, rep, id));
+					trendingItems.addView(newItem);
 				}
 			}
 		}
