@@ -663,8 +663,7 @@ public class MainActivity extends FragmentActivity implements
 			protected void onPostExecute(JSONArray messageList) {
 				getView().findViewById(R.id.trending_progress).setVisibility(
 						View.GONE);
-				LinearLayout trendingItems = (LinearLayout) getView()
-						.findViewById(R.id.trendingItems);
+				LinearLayout trendingItems = (LinearLayout) getView().findViewById(R.id.trendingItems);
 				trendingItems.removeAllViews();
 				LayoutInflater inflater = LayoutInflater.from(getActivity());
 				if (messageList == null) {
@@ -676,7 +675,7 @@ public class MainActivity extends FragmentActivity implements
 					return;
 				}
 
-				for (int i = 0; i < messageList.length() && i < 5; i++) {
+				for (int i = 0; i < messageList.length() && i < 10; i++) {
 					String title = "";
 					String summary = "";
 					String rep = "";

@@ -26,16 +26,35 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal" >
-
-            <ProgressBar
-                android:id="@+id/ratings"
-                style="@android:style/Widget.ProgressBar.Horizontal"
+            
+            <RelativeLayout 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:max="100"
-                android:rotationY="180" />
+	            android:layout_weight="1" >
+
+	            <ProgressBar
+	                android:id="@+id/ratings"
+	                style="@android:style/Widget.ProgressBar.Horizontal"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginRight="10dp"
+	                android:max="100"
+	                android:rotationY="180" />
+	            
+	            <TextView
+	                android:id="@+id/likesText"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/ratings" />
+	            
+	           <TextView
+	                android:id="@+id/dislikesText"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_toRightOf="@id/likesText"
+	                android:layout_below="@id/ratings" />
+            
+            </RelativeLayout>
 
             <ImageButton
                 android:id="@+id/like"

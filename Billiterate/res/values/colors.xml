@@ -4,4 +4,6 @@
     <color name="black">#ff000000</color>
     <color name="black_overlay">#66000000</color>
 	<color name="overscroll">#33b5e5</color>
+	<color name="green">#006600</color>
+	<color name="red">#CC0000</color>
 </resources>
