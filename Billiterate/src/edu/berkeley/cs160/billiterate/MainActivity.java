@@ -152,6 +152,10 @@ public class MainActivity extends FragmentActivity implements
 	            Intent intent = new Intent(this, TabActivity.class);
 	            startActivity(intent);
 	            return true;
+	        case R.id.menu_search:
+	        	Intent search = new Intent(this, SearchActivity.class);
+	        	startActivity(search);
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
