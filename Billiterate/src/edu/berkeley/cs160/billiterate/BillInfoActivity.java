@@ -64,6 +64,9 @@ public class BillInfoActivity extends Activity {
 	static String username = "";
 
 	ShapeDrawable pgDrawable;
+	
+	int green = Color.parseColor("#006600");
+	int red = Color.parseColor("#CC0000");
 
 	boolean liked = false;;
 	boolean disliked = false;
@@ -109,7 +112,7 @@ public class BillInfoActivity extends Activity {
 		summary.setText(bill_summary);
 
 		pgDrawable = new ShapeDrawable();
-		pgDrawable.getPaint().setColor(Color.CYAN);
+		pgDrawable.getPaint().setColor(Color.GRAY);
 		ClipDrawable pgBar = new ClipDrawable(pgDrawable, Gravity.LEFT,
 				ClipDrawable.HORIZONTAL);
 		ratings.setProgressDrawable(pgBar);
@@ -299,16 +302,16 @@ public class BillInfoActivity extends Activity {
 			System.out.println("The total is: " + total);
 			if (total > 0) {
 				int down = (dislikes * 100) / total;
-				ratings.setBackgroundColor(Color.GREEN);
-				pgDrawable.getPaint().setColor(Color.RED);
+				ratings.setBackgroundColor(green);
+				pgDrawable.getPaint().setColor(red);
 				ratings.setProgress(down);
 			} else {
 				System.out.println("The ratings bar should be reset to zero!");
 				ratings.setBackgroundColor(Color.GRAY);
 				ratings.setProgress(0);
 			}
-			likesText.setTextColor(likes == 0 ? Color.GRAY : Color.GREEN);
-			dislikesText.setTextColor(dislikes == 0 ? Color.GRAY : Color.RED);
+			likesText.setTextColor(likes == 0 ? Color.GRAY : green);
+			dislikesText.setTextColor(dislikes == 0 ? Color.GRAY : red);
 			likesText.setText(likes + " likes, ");
 			dislikesText.setText(dislikes + " dislikes");
 		}
@@ -372,15 +375,15 @@ public class BillInfoActivity extends Activity {
 				int total = likes + dislikes;
 				if (total > 0) {
 					int down = (dislikes * 100) / total;
-					ratings.setBackgroundColor(Color.GREEN);
-					pgDrawable.getPaint().setColor(Color.RED);
+					ratings.setBackgroundColor(green);
+					pgDrawable.getPaint().setColor(red);
 					System.out.println("progress bar should be green and up to: "
 									+ down);
 					ratings.setProgress(down);
 				}
 			}
-			likesText.setTextColor(likes == 0 ? Color.GRAY : Color.GREEN);
-			dislikesText.setTextColor(dislikes == 0 ? Color.GRAY : Color.RED);
+			likesText.setTextColor(likes == 0 ? Color.GRAY : green);
+			dislikesText.setTextColor(dislikes == 0 ? Color.GRAY : red);
 			likesText.setText(likes + " likes, ");
 			dislikesText.setText(dislikes + " dislikes");
 		}
