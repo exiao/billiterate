@@ -114,19 +114,6 @@ public class MainActivity extends FragmentActivity implements
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_section3)
 				.setTabListener(this));
-
-		// TEMPORARY for testing
-		/*
-		 * Intent i = new Intent(this, RepresentativeActivity.class);
-		 * i.putExtra("representative", "Linda Maio"); startActivity(i);
-		 */
-
-		/*
-		 * Intent i = new Intent(this, BillInfoActivity.class);
-		 * i.putExtra("title",
-		 * "Zoning Amendments to Allow Later Hours of Operation on Telegraph Avenue; BMC Section 23E.56.060"
-		 * ); startActivity(i);
-		 */
 	}
 
 	@Override

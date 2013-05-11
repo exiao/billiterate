@@ -135,19 +135,16 @@ public class BillInfoActivity extends Activity {
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
 			likes = likes - 1;
 			liked = false;
-			System.out.println("Undoing a like.");
 			new UpdateRatingsTask().execute(id, "True", "True");
 		} else {
 			like.setBackgroundResource(R.drawable.thumbs_up_grn);
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
 			likes = likes + 1;
 			liked = true;
-			System.out.println("Marking a like.");
 			new UpdateRatingsTask().execute(id, "True", "False");
 			if (disliked) {
 				dislikes = dislikes - 1;
 				disliked = false;
-				System.out.println("Changing from dislike to like.");
 				new UpdateRatingsTask().execute(id, "False", "True");
 			}
 		}
@@ -160,19 +157,16 @@ public class BillInfoActivity extends Activity {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_blk);
 			dislikes = dislikes - 1;
 			disliked = false;
-			System.out.println("Undoing a dislike.");
 			new UpdateRatingsTask().execute(id, "False", "True");
 		} else {
 			dislike.setBackgroundResource(R.drawable.thumbs_down_red);
 			like.setBackgroundResource(R.drawable.thumbs_up_blk);
 			dislikes = dislikes + 1;
 			disliked = true;
-			System.out.println("Marking a dislike.");
 			new UpdateRatingsTask().execute(id, "False", "False");
 			if (liked) {
 				likes = likes - 1;
 				liked = false;
-				System.out.println("Changing from like to dislike.");
 				new UpdateRatingsTask().execute(id, "True", "True");
 			}
 		}
@@ -202,7 +196,6 @@ public class BillInfoActivity extends Activity {
 	public void loadProgressBars() {
 		LoadLikesTask task = new LoadLikesTask();
 		task.execute();
-		System.err.println("Finished loading progress bars");
 	}
 
 	private void commentClick() {
@@ -227,7 +220,6 @@ public class BillInfoActivity extends Activity {
 						String commentText = commentTextBox.getText()
 								.toString();
 						String name = nameBox.getText().toString();
-						System.err.println(name);
 						if (name.length() > 0) {
 							name = nameBox.getText().toString();
 							nameHint = name;
@@ -282,14 +274,10 @@ public class BillInfoActivity extends Activity {
 				post.setEntity(entity);
 				post.setHeader("Accept", "application/json");
 				post.setHeader("Content-type", "application/json");
-				System.out.println("Posting " + postParameters.toString() + " to "
-						+ url);
 				client.execute(post);
 			} catch (ClientProtocolException cpe) {
-				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				cpe.printStackTrace();
 			} catch (IOException e) {
-				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				e.printStackTrace();
 			}
 			return null;
@@ -299,14 +287,12 @@ public class BillInfoActivity extends Activity {
 		protected void onPostExecute(Void v) {
 			// loadProgressBars();
 			int total = likes + dislikes;
-			System.out.println("The total is: " + total);
 			if (total > 0) {
 				int down = (dislikes * 100) / total;
 				ratings.setBackgroundColor(green);
 				pgDrawable.getPaint().setColor(red);
 				ratings.setProgress(down);
 			} else {
-				System.out.println("The ratings bar should be reset to zero!");
 				ratings.setBackgroundColor(Color.GRAY);
 				ratings.setProgress(0);
 			}
@@ -358,7 +344,6 @@ public class BillInfoActivity extends Activity {
 				dislikes = 0;
 				ratings.setBackgroundColor(Color.GRAY);
 				ratings.setProgress(0);
-				System.out.println("This bill has not been liked/disliked before, should display gray bar");
 			} else {
 				for (int i = 0; i < messageList.length(); i++) {
 					try {
@@ -366,7 +351,6 @@ public class BillInfoActivity extends Activity {
 						JSONObject fields = current.getJSONObject("fields");
 						likes = fields.getInt("num_likes");
 						dislikes = fields.getInt("num_dislikes");
-						System.out.println("Likes: " + likes + " Dislikes: " + dislikes);
 					} catch (JSONException e) {
 						System.err.println(messageList.toString());
 						e.printStackTrace();
@@ -377,8 +361,6 @@ public class BillInfoActivity extends Activity {
 					int down = (dislikes * 100) / total;
 					ratings.setBackgroundColor(green);
 					pgDrawable.getPaint().setColor(red);
-					System.out.println("progress bar should be green and up to: "
-									+ down);
 					ratings.setProgress(down);
 				}
 			}
@@ -394,7 +376,6 @@ public class BillInfoActivity extends Activity {
 		String name = "Anonymous";
 		PostTask post = new PostTask();
 		post.execute(Integer.toString(billId), name, commentText);
-		// System.err.println("bill ID = " + Integer.toString(billId));
 		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		inputManager.hideSoftInputFromWindow(
@@ -421,16 +402,12 @@ public class BillInfoActivity extends Activity {
 						postParameters);
 				post.setEntity(entity);
 				response = client.execute(post);
-				System.err.println("Posting " + postParameters.toString()
-						+ " to " + url);
 				HttpEntity resp = response.getEntity();
 				String respStr = EntityUtils.toString(resp);
 				System.err.println("Response = " + respStr);
 			} catch (ClientProtocolException cpe) {
-				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				cpe.printStackTrace();
 			} catch (IOException e) {
-				System.err.println("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^");
 				e.printStackTrace();
 			}
 			return null;
@@ -486,10 +463,6 @@ public class BillInfoActivity extends Activity {
 					JSONObject current = messageList.getJSONObject(i);
 					JSONObject fields = current.getJSONObject("fields");
 
-					System.err.println("ID = " + current.getString("pk")
-							+ "\nName = " + fields.getString("name")
-							+ "\nText = " + fields.getString("text"));
-
 					View commentView = LayoutInflater.from(
 							BillInfoActivity.this).inflate(
 							R.layout.comment_layout, comments, false);
@@ -498,9 +471,7 @@ public class BillInfoActivity extends Activity {
 					TextView idText = (TextView) commentView.findViewById(R.id.IDText);
 					TextView date = (TextView) commentView.findViewById(R.id.commentDate);
 					nameText.setText(fields.getString("name"));
-					nameText.setTextSize(20);
 					date.setText(fields.getString("date_time"));
-					date.setTextSize(16);
 					date.setTextColor(Color.GRAY);
 					commentText.setText(fields.getString("text"));
 					idText.setText(current.getString("pk"));
