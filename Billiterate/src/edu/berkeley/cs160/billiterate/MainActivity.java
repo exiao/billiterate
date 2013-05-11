@@ -79,8 +79,8 @@ public class MainActivity extends FragmentActivity implements
 		if (!welcomeScreenShown) {
 			// here you can launch another activity if you like
 			// the code below will display a popup
-			Intent intent = new Intent(this, TabActivity.class);
-			startActivity(intent);
+			// Intent intent = new Intent(this, TabActivity.class);
+			// startActivity(intent);
 
 			/*
 			 * String welcomeTitle =
