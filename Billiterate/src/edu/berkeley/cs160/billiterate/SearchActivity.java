@@ -94,7 +94,10 @@ public class SearchActivity extends Activity {
 		
 		@Override
 		protected JSONArray doInBackground(String... params) {
-			String url = "http://billiterate.pythonanywhere.com/billapp/search/?term=" + params[0];
+			String search = params[0];
+			search = search.replace(' ', '+');
+			System.out.println("Search term = " + search);
+			String url = "http://billiterate.pythonanywhere.com/billapp/search/?term=" + search;
 			System.out.println("searching at " + url);
 			HttpResponse response;
 			String responseString = "";
@@ -128,9 +131,10 @@ public class SearchActivity extends Activity {
 			LinearLayout results = (LinearLayout) findViewById(R.id.search_results);
 			results.removeAllViews();
 			
-			if (messageList == null) {
+			if (messageList.length() == 0) {
 				TextView tv = new TextView(this.context);
 				tv.setText("There are no results that match your search terms");
+				tv.setTextSize(25f);
 				results.addView(tv);
 			} else {
 				for (int i = 0; i < messageList.length(); i++) {
